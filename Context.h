@@ -20,6 +20,7 @@ class Context{
         void load(const string& filename, int numVehicles);
 
         void distances();
-        //void distances(vector<Clients> clients, int matrizDistancias[dimension][dimension]);
+        
+        void buildNearestClients(int maxNeighbors = 10); //mudar esse valor depedendo
 };
 

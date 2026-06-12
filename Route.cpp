@@ -32,8 +32,8 @@ bool Route::moveClient(int fromVehicle, int fromPosition, int toVehicle, int toP
     int demand = ctx.clients[client].demand;
 
     //verifica se cabe o novo veiculo
-    if (fromVeh != toVeh) {
-        if (ctx.vehicles[toVeh].usedCapacity + demand > ctx.vehicles[toVeh].capacity)
+    if (fromVehicle != toVehicle) {
+        if (ctx.vehicles[toVehicle].usedCapacity + demand > ctx.vehicles[toVehicle].capacity)
             return false;
     }
 

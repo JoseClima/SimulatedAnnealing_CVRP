@@ -1,11 +1,15 @@
 #include "Context.h"
 #include <fstream>
+#include <algorithm>
 #include <cstdio>
 #include <string>
 #include <cmath>
+#include <utility>
 using std::vector;
+using std::sort;
 using std::string;
 using std::ifstream;
+using std::pair;
 using std::sqrt;
 using std::pow;
 
@@ -72,5 +76,44 @@ void Context::distances(){
             matrixDistances[i][j] = sqrt(pow((clients[i].x-clients[j].x),2)+pow((clients[i].y-clients[j].y),2));
             matrixDistances[j][i] = matrixDistances[i][j];
         }
+    }
+}
+
+void Context::buildNearestClients(int maxNeighbors){
+    for(int i = 0; i < dimension; i++){
+
+        struct distToOther
+        {
+            double dist;
+            int position;
+        };
+        
+        vector<distToOther> distToOthers;
+        distToOthers.reserve(dimension - 1);
+
+        for(int j = 0; j < dimension; j++){
+            if (i != j){
+                distToOthers.push_back({matrixDistances[i][j],j});
+            }
+        }
+
+        //assim que se faz pq estou usando struct
+        sort(distToOthers.begin(), distToOthers.end(), [](const distToOther& a, const distToOther &b){
+            return a.dist < b.dist;
+        });
+        
+        int limit;
+        if(maxNeighbors > dimension -1){
+            limit = dimension-1;
+        }
+        else{
+            limit = maxNeighbors;
+        }
+
+        for(int k = 0; k < limit; k++){
+            clients[i].nearest.push_back(distToOthers[k].position); //push back melhor que emplace pq o valor ja existe pelo visto
+        }
+
+
     }
 }

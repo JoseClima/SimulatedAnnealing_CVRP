@@ -7,10 +7,12 @@
 #include <cassert>
 
 using RNG = std::mt19937;
+using std::exp;
+using b_distr = std::bernoulli_distribution;
 
 //template: https://cp-algorithms.com/num_methods/simulated_annealing.html
 
-bool probability(double price, double price_next, double t, RNG& rng);
+bool probability(double currentCost, double nextCost, double temperature, RNG& rng);
 
 class SA{
    public:
@@ -19,12 +21,10 @@ class SA{
         //para construir a primeira solução
         SA(Context& ctx, int numVehicles);
 
-        //
+        //para construir as proximas soluções
         SA(Context &ctx, int numVehicles, Route &route);
 
         SA next();
-
-        double price();
 
         Route initialSolution();
         
@@ -36,8 +36,11 @@ class SA{
 
 };
 
- pair <double, SA> simAnneal(Context &ctx, int numVehicles,
-                                    double initialTemp, double decayRate, double finalTemp);
+//parametros do template
+pair <double, SA> simAnneal(Context &ctx, int numVehicles,
+                                    double initialTemp = 1000, 
+                                    double decayRate = 0.995, 
+                                    double finalTemp = 1);
 
 
 

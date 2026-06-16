@@ -80,17 +80,19 @@ void Context::distances(){
 }
 
 void Context::buildNearestClients(int maxNeighbors){
-    for(int i = 0; i < dimension; i++){
-
-        struct distToOther
+    struct aux
         {
             double dist;
             int position;
         };
-        
-        vector<distToOther> distToOthers;
+
+        vector<aux> distToOthers;
         distToOthers.reserve(dimension - 1);
 
+    for(int i = 0; i < dimension; i++){      
+        distToOthers.clear();
+
+        //colocando as distancias no novo vetor
         for(int j = 0; j < dimension; j++){
             if (i != j){
                 distToOthers.push_back({matrixDistances[i][j],j});
@@ -98,7 +100,7 @@ void Context::buildNearestClients(int maxNeighbors){
         }
 
         //assim que se faz pq estou usando struct
-        sort(distToOthers.begin(), distToOthers.end(), [](const distToOther& a, const distToOther &b){
+        sort(distToOthers.begin(), distToOthers.end(), [](aux& a, aux &b){
             return a.dist < b.dist;
         });
         

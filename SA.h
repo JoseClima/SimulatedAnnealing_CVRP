@@ -9,6 +9,7 @@
 using RNG = std::mt19937;
 using std::exp;
 using b_distr = std::bernoulli_distribution;
+using std::numeric_limits;
 
 //template: https://cp-algorithms.com/num_methods/simulated_annealing.html
 

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Client.h"
 #include "Vehicle.h"
 #include <vector>

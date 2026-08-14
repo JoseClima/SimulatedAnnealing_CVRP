@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Route.h"
 #include "Context.h"
 #include <random>

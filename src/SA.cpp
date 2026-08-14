@@ -1,4 +1,4 @@
-#include <SA.h>
+#include "SA.h"
 
 bool probability(double currentCost, double nextCost, double temperature, RNG &rng){
     double prob = exp(-(nextCost-currentCost)/temperature);
@@ -12,12 +12,12 @@ bool probability(double currentCost, double nextCost, double temperature, RNG &r
 }
 
 //primeiro construtor
-SA::SA(Context &ctx, int numVehicles) : ctx(ctx), numVehicles(numVehicles){
+SA::SA(Context &ctx, int numVehicles) : ctx(ctx), numVehicles(numVehicles), route(numVehicles){
     route = initialSolution();
 }
 
 //construtor para as outras vezes
-SA::SA(Context &ctx, int numVehicles, Route &route) : ctx(ctx), numVehicles(numVehicles){
+SA::SA(Context &ctx, int numVehicles, Route &route) : ctx(ctx), numVehicles(numVehicles), route(numVehicles){
     this->route = route;
 }
 
@@ -73,4 +73,8 @@ Route SA::initialSolution(){
     
     newRoute.updateAllCosts(ctx);
     return newRoute;
+}
+
+bool SA::applyRandomMove(Route& route, Context& ctx, int numVehicles, RNG& rng){
+
 }

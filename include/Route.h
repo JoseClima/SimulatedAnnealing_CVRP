@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <cstdio>
 #include "Context.h"

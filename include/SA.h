@@ -9,6 +9,7 @@
 #include <cassert>
 
 using RNG = std::mt19937;
+using uni_int_dist = std::uniform_int_distribution<int>;
 using std::exp;
 using b_distr = std::bernoulli_distribution;
 using std::numeric_limits;

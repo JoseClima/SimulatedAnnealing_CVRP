@@ -1,4 +1,4 @@
-#include "Route.h"
+#include "../include/Route.h"
 
 //adiciona o cliente em uma posição especifica, caso seja informado o -1 o cliente é add no final
 void Route::addClient(int vehicle, int client, int position, Context& ctx){
@@ -9,21 +9,18 @@ void Route::addClient(int vehicle, int client, int position, Context& ctx){
         routes[vehicle].insert(routes[vehicle].begin() + position, client); //adiciona na posicao informada
     }
 
-    ctx.vehicles[vehicle].usedCapacity += ctx.clients[client].demand; //atualiza a capacity usada
+    usedCapacity[vehicle] += ctx.clients[client].demand; //atualiza a capacity usada
 
     RouteCost(vehicle, ctx); //recalcula o preço daquele veiculo
-
 }
 
 void Route::removeClient(int vehicle, int position, Context& ctx){
-    
     int client = routes[vehicle][position]; //descobre o cliente
     routes[vehicle].erase(routes[vehicle].begin() + position);
 
-    ctx.vehicles[vehicle].usedCapacity -= ctx.clients[client].demand; //subtrai a capacidade antes usada pelo cliente agora removido 
+    usedCapacity[vehicle] -= ctx.clients[client].demand; //subtrai a capacidade antes usada pelo cliente agora removido
 
     RouteCost(vehicle, ctx);
-
 }
 
 
@@ -31,22 +28,21 @@ bool Route::moveClient(int fromVehicle, int fromPosition, int toVehicle, int toP
     int client = routes[fromVehicle][fromPosition];
     int demand = ctx.clients[client].demand;
 
-    //verifica se cabe o novo veiculo
+    //verifica se cabe o novo veiculo (usa o limite estático de capacidade em ctx.vehicles)
     if (fromVehicle != toVehicle) {
-        if (ctx.vehicles[toVehicle].usedCapacity + demand > ctx.vehicles[toVehicle].capacity)
+        if (usedCapacity[toVehicle] + demand > ctx.vehicles[toVehicle].capacity)
             return false;
     }
 
     //se ele for mudar de cliente em um mesmo veiculo a posição final precisa ser subtraida caso ela tenha um valor maior que o fromposition
     if (fromVehicle == toVehicle && toPosition > fromPosition) {
-        toPosition--;  
+        toPosition--;
     }
 
     removeClient(fromVehicle, fromPosition, ctx);
     addClient(toVehicle, client, toPosition, ctx);
 
     return true;
-
 }
 
 
@@ -72,21 +68,18 @@ void Route::RouteCost(int vehicle, Context& ctx){
     cost += ctx.matrixDistances[r.back()][0];
 
     costPerVehicles[vehicle] = cost;
-
 } 
 
-//custo de todos os veiculos
 void Route::updateAllCosts(Context& ctx){
     for(size_t v = 0; v < routes.size(); v++){
         RouteCost(v, ctx);
     }
 }
 
-//valor total
 double Route::getTotalCost(){
     double total = 0.0;
     for(double c : costPerVehicles){
-        total +=c;
+        total += c;
     }
     return total;
 }

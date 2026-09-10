@@ -8,10 +8,14 @@ using std::vector;
 class Route{
     public:
         vector<vector<int>> routes;
-        vector <double> costPerVehicles;
+        vector<double> costPerVehicles;
+        vector<int> usedCapacity;
 
         Route(int numVehicles)
-            : routes(numVehicles), costPerVehicles(numVehicles, 0.0){}
+            : routes(numVehicles),
+              costPerVehicles(numVehicles, 0.0),
+              usedCapacity(numVehicles, 0) {}
+            
         void addClient(int vehicle, int client, int position, Context& ctx);
         void removeClient(int vehicle, int position, Context& ctx);
         bool moveClient(int fromVehicle, int fromPosition, int toVehicle, int toPosition, Context& ctx);

@@ -152,6 +152,12 @@ bool SA::applyRandomMove(Route& route, Context& ctx, int numVehicles, RNG& rng){
     return false;
 }
 
+/*
+o artigo original nao resultou em NENHUMA alteração
+ele comparar o custo candidato com o melhor faz com que nao haja nenhuma diferença
+*/
+
+
 pair <double, SA> simAnneal(Context &ctx, int numVehicles, double initialTemp, double decayRate, double finalTemp){
 
     int r = 0, n, attempts; //attemps existe p/ quando resulta em false o applyrandommove
@@ -181,7 +187,15 @@ pair <double, SA> simAnneal(Context &ctx, int numVehicles, double initialTemp, d
             totalTried++;
 
             if(result == true){
-                deltaC = instCandidate.getTotalCost() - bestCost;
+                /* VERSAO ARTIGO
+                no pseudocodigo está assim, mas isso após testes se mostrou inoperante
+                deltaC = instCandidate.getTotalCost() - bestCost; 
+                */
+
+                /*VERSÃO ATUALIZADA
+                */
+                currentCost = instCurrent.route.getTotalCost();
+                deltaC = instCandidate.getTotalCost() - currentCost; 
                 
                 //segundo teste
                 totalValid++;
@@ -189,17 +203,31 @@ pair <double, SA> simAnneal(Context &ctx, int numVehicles, double initialTemp, d
                 if(deltaC < 0){
 
                     //terceiro teste
-                    totalAccepted++;
+                    totalImprovements++;
 
+                    /* COMO ESTAVA NA VERSAO DO ARTIGO
                     instBest = instCandidate;
                     bestCost = instBest.getTotalCost();
                     instCurrent.route = instCandidate;
+                    */
+
+                    /* COMO ESTÁ AGORA
+                    */
+                   instCurrent.route = instCandidate;
+                    if(instCandidate.getTotalCost() < bestCost){
+                        instBest = instCandidate;
+                        bestCost = instBest.getTotalCost();
+                   }
                 }
                 else{
                     if(probabilityV2(deltaC, T, rng)){
                         instCurrent.route = instCandidate;
                     }
                 }
+
+                //terceiro teste tambem
+                totalAccepted++;
+
                 n++;
             }
             else{

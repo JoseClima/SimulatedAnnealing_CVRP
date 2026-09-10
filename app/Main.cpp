@@ -24,7 +24,7 @@ int main() {
         Route r = initial.route;
         RNG rng(42);
         bool ok = initial.applyRandomMove(r, ctx, 5, rng);
-        printf("primeiro movimento: %s, custo depois: %.2f\n",
+        printf("\nprimeiro movimento: %s, custo depois: %.2f\n",
        ok ? "true" : "false", r.getTotalCost());
 
         // ---- SA

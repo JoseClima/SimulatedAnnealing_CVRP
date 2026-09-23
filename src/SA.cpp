@@ -17,9 +17,16 @@ bool probabilityV1(double currentCost, double nextCost, double temperature, RNG 
 
 //feito com base no pseudocodigo do artigo
 bool probabilityV2(double delta, double T, RNG& rng) {
-        double prob = exp(-delta / T); 
-        b_distr d(prob);
-        return d(rng);
+    double prob = exp(-delta / T); 
+    b_distr d(prob);
+    return d(rng);
+}
+
+bool probabilityV3(double delta, double T, RNG& rng) {
+    double z = exp(-delta / T);          // z = e^{-ΔC/T}
+    std::uniform_real_distribution<double> dist(0.0, 1.0);
+    double y = dist(rng);                 // y ~ U(0,1)
+    return y < z;                         // aceita se y < z
 }
 
 
@@ -155,6 +162,7 @@ bool SA::applyRandomMove(Route& route, Context& ctx, int numVehicles, RNG& rng){
 /*
 o artigo original nao resultou em NENHUMA alteração
 ele comparar o custo candidato com o melhor faz com que nao haja nenhuma diferença
+por enquanto
 */
 
 
@@ -173,9 +181,6 @@ pair <double, SA> simAnneal(Context &ctx, int numVehicles, double initialTemp, d
     instBest = instCurrent.route;
     bestCost = instBest.getTotalCost();
 
-    //testadores
-    long long totalTried = 0, totalValid = 0, totalAccepted = 0, totalImprovements = 0;
-
     do{
         n = 0;
         attempts = 0;
@@ -183,50 +188,24 @@ pair <double, SA> simAnneal(Context &ctx, int numVehicles, double initialTemp, d
             instCandidate = instCurrent.route;
             result = instCurrent.applyRandomMove(instCandidate, ctx, numVehicles, rng);
 
-            //primeiro teste
-            totalTried++;
-
             if(result == true){
-                /* VERSAO ARTIGO
-                no pseudocodigo está assim, mas isso após testes se mostrou inoperante
-                deltaC = instCandidate.getTotalCost() - bestCost; 
-                */
-
-                /*VERSÃO ATUALIZADA
-                */
+                
                 currentCost = instCurrent.route.getTotalCost();
                 deltaC = instCandidate.getTotalCost() - currentCost; 
-                
-                //segundo teste
-                totalValid++;
 
                 if(deltaC < 0){
 
-                    //terceiro teste
-                    totalImprovements++;
-
-                    /* COMO ESTAVA NA VERSAO DO ARTIGO
-                    instBest = instCandidate;
-                    bestCost = instBest.getTotalCost();
                     instCurrent.route = instCandidate;
-                    */
-
-                    /* COMO ESTÁ AGORA
-                    */
-                   instCurrent.route = instCandidate;
                     if(instCandidate.getTotalCost() < bestCost){
                         instBest = instCandidate;
                         bestCost = instBest.getTotalCost();
-                   }
+                    }
                 }
                 else{
-                    if(probabilityV2(deltaC, T, rng)){
+                    if(probabilityV3(deltaC, T, rng)){
                         instCurrent.route = instCandidate;
                     }
                 }
-
-                //terceiro teste tambem
-                totalAccepted++;
 
                 n++;
             }
@@ -246,8 +225,5 @@ pair <double, SA> simAnneal(Context &ctx, int numVehicles, double initialTemp, d
 
     }while(r < MaxTempTrails && T > finalTemp);
     
-    printf("tried=%lld valid=%lld accepted=%lld improvements=%lld\n",
-       totalTried, totalValid, totalAccepted, totalImprovements);
-
     return {bestCost, SA(ctx, numVehicles, instBest)};
 }

@@ -42,7 +42,6 @@ class SA{
 
 };
 
-//parametros do template
 pair <double, SA> simAnneal(Context &ctx, int numVehicles,
                                     double initialTemp = 1000, 
                                     double decayRate = 0.995, 

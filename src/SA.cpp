@@ -162,7 +162,6 @@ bool SA::applyRandomMove(Route& route, Context& ctx, int numVehicles, RNG& rng){
 /*
 o artigo original nao resultou em NENHUMA alteração
 ele comparar o custo candidato com o melhor faz com que nao haja nenhuma diferença
-por enquanto
 */
 
 
@@ -188,18 +187,18 @@ pair <double, SA> simAnneal(Context &ctx, int numVehicles, double initialTemp, d
             instCandidate = instCurrent.route;
             result = instCurrent.applyRandomMove(instCandidate, ctx, numVehicles, rng);
 
+
             if(result == true){
-                
-                currentCost = instCurrent.route.getTotalCost();
-                deltaC = instCandidate.getTotalCost() - currentCost; 
+            
+                deltaC = instCandidate.getTotalCost() - bestCost; 
+              
 
                 if(deltaC < 0){
 
+                    instBest = instCandidate;
+                    bestCost = instBest.getTotalCost();
                     instCurrent.route = instCandidate;
-                    if(instCandidate.getTotalCost() < bestCost){
-                        instBest = instCandidate;
-                        bestCost = instBest.getTotalCost();
-                    }
+
                 }
                 else{
                     if(probabilityV3(deltaC, T, rng)){
@@ -224,6 +223,6 @@ pair <double, SA> simAnneal(Context &ctx, int numVehicles, double initialTemp, d
         T = decayRate*T;
 
     }while(r < MaxTempTrails && T > finalTemp);
-    
+
     return {bestCost, SA(ctx, numVehicles, instBest)};
 }

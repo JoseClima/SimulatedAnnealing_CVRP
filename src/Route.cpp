@@ -11,7 +11,7 @@ void Route::addClient(int vehicle, int client, int position, Context& ctx){
 
     usedCapacity[vehicle] += ctx.clients[client].demand; 
 
-    RouteCost(vehicle, ctx); //atualiza o preço de um veiculo
+    RouteCost(vehicle, ctx);
 }
 
 void Route::removeClient(int vehicle, int position, Context& ctx){

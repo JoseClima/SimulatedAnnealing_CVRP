@@ -182,6 +182,8 @@ pair <double, SA> simAnneal(Context &ctx, int numVehicles, double initialTemp, d
 
     bool accepted;
 
+    double paraVerTemp;
+
     do{
         n = 0;
         attempts = 0;
@@ -204,6 +206,7 @@ pair <double, SA> simAnneal(Context &ctx, int numVehicles, double initialTemp, d
                 }
                 else{
                     accepted = probabilityV2(deltaC, T, rng);
+                    paraVerTemp = T;
                     if(accepted){
                         instCurrent.route = instCandidate;
                     }
@@ -219,8 +222,8 @@ pair <double, SA> simAnneal(Context &ctx, int numVehicles, double initialTemp, d
         r++;
 
         if(r < 5){
-            printf("r=%d T=%.2f bestCost=%.2f currentCost=%.2f deltaC = %.2f, probv2 = %d\n",
-           r, T, bestCost, instCurrent.route.getTotalCost(), deltaC, accepted);
+            printf("r=%d T=%.2f bestCost=%.2f currentCost=%.2f deltaC = %.2f, T = %.2f, exp(-delta / T) = %.2f, probv2 = %d\n",
+           r, T, bestCost, instCurrent.route.getTotalCost(), deltaC, paraVerTemp, exp(-deltaC / T),accepted);
         }
 
         T = decayRate*T;

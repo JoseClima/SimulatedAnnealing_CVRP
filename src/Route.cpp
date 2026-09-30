@@ -6,19 +6,19 @@ void Route::addClient(int vehicle, int client, int position, Context& ctx){
         routes[vehicle].push_back(client);
     }
     else{
-        routes[vehicle].insert(routes[vehicle].begin() + position, client); //adiciona na posicao informada
+        routes[vehicle].insert(routes[vehicle].begin() + position, client);
     }
 
-    usedCapacity[vehicle] += ctx.clients[client].demand; //atualiza a capacity usada
+    usedCapacity[vehicle] += ctx.clients[client].demand; 
 
-    RouteCost(vehicle, ctx); //recalcula o preço daquele veiculo
+    RouteCost(vehicle, ctx);
 }
 
 void Route::removeClient(int vehicle, int position, Context& ctx){
-    int client = routes[vehicle][position]; //descobre o cliente
+    int clientToBeRemoved = routes[vehicle][position];
     routes[vehicle].erase(routes[vehicle].begin() + position);
 
-    usedCapacity[vehicle] -= ctx.clients[client].demand; //subtrai a capacidade antes usada pelo cliente agora removido
+    usedCapacity[vehicle] -= ctx.clients[clientToBeRemoved].demand; 
 
     RouteCost(vehicle, ctx);
 }
@@ -28,13 +28,13 @@ bool Route::moveClient(int fromVehicle, int fromPosition, int toVehicle, int toP
     int client = routes[fromVehicle][fromPosition];
     int demand = ctx.clients[client].demand;
 
-    //verifica se cabe o novo veiculo (usa o limite estático de capacidade em ctx.vehicles)
+    //se nao caber, retorna falso
     if (fromVehicle != toVehicle) {
         if (usedCapacity[toVehicle] + demand > ctx.vehicles[toVehicle].capacity)
             return false;
     }
 
-    //se ele for mudar de cliente em um mesmo veiculo a posição final precisa ser subtraida caso ela tenha um valor maior que o fromposition
+    //cobre o caso de uma rota ter dois veiculos trocados de ordem, mas por enquanto nao há essa opção de movimentação
     if (fromVehicle == toVehicle && toPosition > fromPosition) {
         toPosition--;
     }

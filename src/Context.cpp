@@ -32,11 +32,11 @@ void Context::load(const string& filename, int numVehicles){
             }
 
             else if(word == "NODE_COORD_SECTION"){
-                clients.reserve(dimension); //resize nao funciona pois nao tem construtor padrao
+                clients.reserve(dimension);
                 int id, x, y;
                 for(int i = 0; i < dimension; i++){
                     file >> id >> x >> y;
-                    clients.emplace_back(id, x, y, 0); //emplace_back parece ser melhor que o push_back
+                    clients.emplace_back(id, x, y, 0); 
                 }
             }
 
@@ -48,7 +48,7 @@ void Context::load(const string& filename, int numVehicles){
                 }
             }
 
-            else if (word == "DEPOT_SECTION"){ //parece que todos tem o deposito no id 1
+            else if (word == "DEPOT_SECTION"){ //deposito no id 1
                 break;
             }
 
@@ -92,14 +92,12 @@ void Context::buildNearestClients(int maxNeighbors){
     for(int i = 0; i < dimension; i++){      
         distToOthers.clear();
 
-        //colocando as distancias no novo vetor
         for(int j = 0; j < dimension; j++){
             if (i != j){
                 distToOthers.push_back({matrixDistances[i][j],j});
             }
         }
 
-        //assim que se faz pq estou usando struct
         sort(distToOthers.begin(), distToOthers.end(), [](aux& a, aux &b){
             return a.dist < b.dist;
         });
@@ -113,7 +111,7 @@ void Context::buildNearestClients(int maxNeighbors){
         }
 
         for(int k = 0; k < limit; k++){
-            clients[i].nearest.push_back(distToOthers[k].position); //push back melhor que emplace pq o valor ja existe pelo visto
+            clients[i].nearest.push_back(distToOthers[k].position);
         }
 
 

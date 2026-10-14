@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <string>
 #include <cmath>
+#include <cctype>
 #include <utility>
 using std::vector;
 using std::sort;
@@ -11,6 +12,8 @@ using std::string;
 using std::ifstream;
 using std::pair;
 using std::sqrt;
+using std::pow;
+
 
 void Context::load(string& filename, int numVehicles){
     ifstream file(filename);
@@ -27,6 +30,23 @@ void Context::load(string& filename, int numVehicles){
             else if(word == "CAPACITY"){
                 file >> word;
                 file >> capacity;
+            }
+
+            else if(word == "COMMENT"){
+                string comment;
+                std::getline(file, comment);
+                // procura "ptimal" — cobre "Optimal value: 784" e "Optimal value : 784"
+                size_t pos = comment.find("ptimal");
+                if(pos != string::npos){
+                    size_t i = pos;
+                    while(i < comment.size() && !isdigit((unsigned char)comment[i])) i++;
+                    int val = 0;
+                    while(i < comment.size() && isdigit((unsigned char)comment[i])){
+                        val = val * 10 + (comment[i] - '0');
+                        i++;
+                    }
+                    optimalCost = val;
+                }
             }
 
             else if(word == "NODE_COORD_SECTION"){
@@ -53,9 +73,10 @@ void Context::load(string& filename, int numVehicles){
         }
 
         file.close();
-        qtdClients = dimension - 1;
+
         for(int i = 0; i < numVehicles; i++){
             vehicles.push_back(capacity); 
+            //vehicles[i].capacity = capacity;
         }
 
     }
@@ -66,7 +87,6 @@ void Context::load(string& filename, int numVehicles){
 }
 
 void Context::distances(){
-    double distAux = 0;
     matrixDistances.assign(dimension, vector<double>(dimension, 0.0));
     for(int i = 0; i < dimension; i++){
         for(int j = i+1; j < dimension; j++){
@@ -79,6 +99,8 @@ void Context::distances(){
 }
 
 void Context::buildNearestClients(int maxNeighbors){
+    nearestNeighbors = maxNeighbors;
+
     struct aux
         {
             double dist;
@@ -112,5 +134,7 @@ void Context::buildNearestClients(int maxNeighbors){
         for(int k = 0; k < limit; k++){
             clients[i].addNearest(distToOthers[k].position);
         }
+
+
     }
 }

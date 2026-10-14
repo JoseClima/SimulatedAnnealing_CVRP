@@ -25,12 +25,13 @@ class Statistics {
 
         Route bestRoute;
         double bestCost;
+        double initialCost;
 
         void saveStatistics(string& outputFile);
 
     public:
         Statistics(Context& ctx, int numVehicles, int numExecutions = 30,
-                   double initialTemp = 10000, double decayRate = 0.999, double finalTemp = 1);
+                   double initialTemp = 1000000, double decayRate = 0.9999, double finalTemp = 1);
 
         void run(string& outputFile);
 };

@@ -12,41 +12,51 @@ class Context {
         vector<Client>  clients; // posição 0 é o depósito
         vector<Vehicle> vehicles;
         int dimension;
-        int qtdClients;
+        int optimalCost;
+        int nearestNeighbors;
         vector<vector<double>> matrixDistances;
 
     public:
-        Context() : clients(), vehicles(), dimension(0), qtdClients(0) {}
+        Context() : clients(), vehicles(), dimension(0),
+                    optimalCost(0), nearestNeighbors(0) {}
 
-        void load(string &filename, int numVehicles);
+        void load(string& filename, int numVehicles);
         void distances();
-        void buildNearestClients(int maxNeighbors = (20));
+        void buildNearestClients(int maxNeighbors = 30);
 
-        int getDimension() { 
-            return dimension; 
+        int getDimension() {
+            return dimension;
         }
 
-        int getQtdClients() { 
-            return qtdClients; 
+        int getQtdClients() {
+            return dimension - 1;
         }
 
-        vector<Client> &getClients() { 
-            return clients; 
+        int getOptimalCost() {
+            return optimalCost;
         }
 
-        Client &getClient(int i) { 
-            return clients[i]; 
+        int getNearestNeighbors() {
+            return nearestNeighbors;
         }
 
-        vector<Vehicle> &getVehicles() { 
-            return vehicles; 
+        vector<Client> &getClients() {
+            return clients;
         }
 
-        Vehicle &getVehicle(int i) { 
-            return vehicles[i]; 
+        Client &getClient(int i) {
+            return clients[i];
         }
 
-        double getDistance(int i, int j) { 
-            return matrixDistances[i][j]; 
+        vector<Vehicle> &getVehicles() {
+            return vehicles;
+        }
+
+        Vehicle &getVehicle(int i) {
+            return vehicles[i];
+        }
+
+        double getDistance(int i, int j) {
+            return matrixDistances[i][j];
         }
 };

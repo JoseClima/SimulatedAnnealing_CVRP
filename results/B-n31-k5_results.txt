@@ -1,0 +1,78 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 5
+Clientes (excl. dep): 30
+Vizinhos (nearest)  : 7 (qtdClient/4)
+Custo otimo         : 672
+
+--- Parametros do SA ---
+Temperatura inicial : 1000.0000
+Taxa de decaimento  : 0.9950
+Temperatura final   : 1.0000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 0.2380 s
+Desvio padrao       : 0.0074 s
+
+--- Estatisticas de Custo ---
+Custo medio         : 727.9276
+Desvio padrao       : 9.9335
+Melhor custo        : 706.3804  (execucao #6)
+Pior custo          : 747.6903  (execucao #22)
+
+--- Comparacoes ---
+Custo solucao inicial    : 950.8421
+Melhor custo (SA)        : 706.3804
+Custo medio (SA)         : 727.9276
+Melhor (SA) - otimo      : 34.3804  (5.1161% pior que o otimo)
+Media (SA) - otimo       : 55.9276  (8.3226% pior que o otimo)
+Melhoria (inicial->best SA)   : 244.4617  (25.7100%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #6)
+====================================================
+Custo: 706.3804
+Route #1: 21 11 28 3 
+Route #2: 24 8 18 14 31 
+Route #3: 9 13 10 7 4 27 29 
+Route #4: 12 16 15 2 20 25 23 
+Route #5: 5 30 22 26 17 6 19 
+Cost 706.3804
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1     717.5589       0.2359
+   2     735.5912       0.2412
+   3     715.7576       0.2413
+   4     732.5175       0.2337
+   5     725.8748       0.2354
+   6     706.3804       0.2378
+   7     731.9636       0.2308
+   8     734.7376       0.2344
+   9     712.3861       0.2279
+  10     714.7724       0.2287
+  11     726.2769       0.2291
+  12     722.4866       0.2348
+  13     719.8295       0.2310
+  14     725.1892       0.2289
+  15     712.6217       0.2326
+  16     728.2589       0.2384
+  17     735.4101       0.2397
+  18     733.8829       0.2403
+  19     728.3545       0.2367
+  20     722.2734       0.2363
+  21     728.7066       0.2369
+  22     747.6903       0.2337
+  23     729.0403       0.2326
+  24     740.4464       0.2593
+  25     728.8139       0.2459
+  26     740.0544       0.2565
+  27     747.6896       0.2471
+  28     725.6355       0.2447
+  29     728.6383       0.2420
+  30     738.9899       0.2449

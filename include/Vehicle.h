@@ -1,9 +1,13 @@
 #pragma once
 
 class Vehicle {
-    public:
+    private:
         int capacity;
 
-        Vehicle(int capacity) : 
-        capacity(capacity){}
+    public:
+        Vehicle(int capacity) : capacity(capacity) {}
+
+        int getCapacity() { 
+            return capacity; 
+        }
 };

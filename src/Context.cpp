@@ -11,10 +11,8 @@ using std::string;
 using std::ifstream;
 using std::pair;
 using std::sqrt;
-using std::pow;
 
-
-void Context::load(const string& filename, int numVehicles){
+void Context::load(string& filename, int numVehicles){
     ifstream file(filename);
     if(file.is_open() == true){
         string word;
@@ -42,9 +40,9 @@ void Context::load(const string& filename, int numVehicles){
 
             else if(word == "DEMAND_SECTION"){
                 int id, dimAux;
-                for(int i = 0; i <dimension; i++){
+                for(int i = 0; i < dimension; i++){
                     file >> id >> dimAux;
-                    clients[id-1].demand = dimAux;
+                    clients[id-1].setDemand(dimAux);
                 }
             }
 
@@ -58,7 +56,6 @@ void Context::load(const string& filename, int numVehicles){
         qtdClients = dimension - 1;
         for(int i = 0; i < numVehicles; i++){
             vehicles.push_back(capacity); 
-            //vehicles[i].capacity = capacity;
         }
 
     }
@@ -70,10 +67,12 @@ void Context::load(const string& filename, int numVehicles){
 
 void Context::distances(){
     double distAux = 0;
-    matrixDistances.assign(dimension, vector<double>(dimension, 0.0)); //faz a matriz ser [dimension][dimension]
+    matrixDistances.assign(dimension, vector<double>(dimension, 0.0));
     for(int i = 0; i < dimension; i++){
         for(int j = i+1; j < dimension; j++){
-            matrixDistances[i][j] = sqrt(pow((clients[i].x-clients[j].x),2)+pow((clients[i].y-clients[j].y),2));
+            double dx = clients[i].getX() - clients[j].getX();
+            double dy = clients[i].getY() - clients[j].getY();
+            matrixDistances[i][j] = sqrt(dx*dx + dy*dy);
             matrixDistances[j][i] = matrixDistances[i][j];
         }
     }
@@ -111,9 +110,7 @@ void Context::buildNearestClients(int maxNeighbors){
         }
 
         for(int k = 0; k < limit; k++){
-            clients[i].nearest.push_back(distToOthers[k].position);
+            clients[i].addNearest(distToOthers[k].position);
         }
-
-
     }
 }

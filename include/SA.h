@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../include/Route.h"
-#include "../include/Context.h"
+#include "Route.h"
+#include "Context.h"
 #include <random>
 #include <chrono>
 #include <algorithm>
@@ -17,32 +17,31 @@ using std::numeric_limits;
 
 //template: https://cp-algorithms.com/num_methods/simulated_annealing.html
 
-bool probabilityV1(double currentCost, double nextCost, double temperature, RNG& rng);
-bool probabilityV2(double delta, double T, RNG& rng);
+bool probability(double delta, double T, RNG& rng);
 
-class SA{
-   public:
+class SA {
+    private:
+        Context& ctx;
+        int numVehicles;
         Route route;
 
-        //para construir a primeira solução
+    public:
         SA(Context& ctx, int numVehicles);
-
-        //para construir as proximas soluções
-        SA(Context &ctx, int numVehicles, Route &existingRroute);
+        SA(Context& ctx, int numVehicles, Route& existingRoute);
 
         Route initialSolution();
-        
         bool applyRandomMove(Route& route, Context& ctx, int numVehicles, RNG& rng);
 
+        Route& getRoute() {
+            return route;
+        }
 
-        
-    private:
-            Context &ctx;
-            int numVehicles;
-
+        void setRoute(Route& r) {
+            route = r;
+        }
 };
 
-pair <double, SA> simAnneal(Context &ctx, int numVehicles,
-                                    double initialTemp = 1000, 
-                                    double decayRate = 0.995, 
-                                    double finalTemp = 1); 
+pair<double, SA> simAnneal(Context& ctx, int numVehicles,
+                           double initialTemp = 1000000,
+                           double decayRate = 0.9999,
+                           double finalTemp = 1);

@@ -2,29 +2,51 @@
 
 #include "Client.h"
 #include "Vehicle.h"
-#include <vector>
 #include <string>
 #include <utility>
-using std::vector;
 using std::pair;
 using std::string;
 
-class Context{
-    public:
-        vector<Client> clients; //posicao 0 é o deposito
+class Context {
+    private:
+        vector<Client>  clients; // posição 0 é o depósito
         vector<Vehicle> vehicles;
-        int dimension; //termo usado no exemplo
-        int qtdClients; //dimension - 1
+        int dimension;
+        int qtdClients;
         vector<vector<double>> matrixDistances;
-        //vector<double>, índice [i*dimension + j]
 
-        Context() : 
-        clients(), vehicles(), dimension(0){}
+    public:
+        Context() : clients(), vehicles(), dimension(0), qtdClients(0) {}
 
-        void load(const string& filename, int numVehicles);
-
+        void load(string &filename, int numVehicles);
         void distances();
-        
-        void buildNearestClients(int maxNeighbors = 10); //mudar esse valor depedendo
-};
+        void buildNearestClients(int maxNeighbors = (20));
 
+        int getDimension() { 
+            return dimension; 
+        }
+
+        int getQtdClients() { 
+            return qtdClients; 
+        }
+
+        vector<Client> &getClients() { 
+            return clients; 
+        }
+
+        Client &getClient(int i) { 
+            return clients[i]; 
+        }
+
+        vector<Vehicle> &getVehicles() { 
+            return vehicles; 
+        }
+
+        Vehicle &getVehicle(int i) { 
+            return vehicles[i]; 
+        }
+
+        double getDistance(int i, int j) { 
+            return matrixDistances[i][j]; 
+        }
+};

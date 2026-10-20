@@ -16,4 +16,5 @@ mingw32-make clean                # apaga .o e o binário
 mingw32-make help                 # lista todos os comandos
 ```
 
-**Aviso:** para executar de qualquer pasta, use `make -C caminho/para/VRP/scripts`.
+**Aviso 1:** usei o mingw32-make pois estou no windows
+**Aviso 2:** para executar de qualquer pasta, use `make -C caminho/para/VRP/scripts`.

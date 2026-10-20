@@ -44,4 +44,5 @@ class SA {
 pair<double, SA> simAnneal(Context& ctx, int numVehicles,
                            double initialTemp = 1000000,
                            double decayRate = 0.9999,
-                           double finalTemp = 1);
+                           double finalTemp = 1,
+                           int maxTempTrails = 1000);

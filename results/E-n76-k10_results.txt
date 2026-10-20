@@ -1,0 +1,86 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 10
+Clientes (excl. dep): 75
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 19 (qtdClient/4)
+Temperatura inicial : 1000.0000
+Taxa de decaimento  : 0.9950
+Temperatura final   : 1.0000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 0.0329 s
+Desvio padrao       : 0.0011 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 830
+Custo solu inicial  : 1184.1174
+Custo medio         : 1182.8814
+Mediana             : 1184.1174
+Desvio padrao       : 6.6564
+Coef. de variacao   : 0.5627 %
+Melhor custo        : 1147.0356  (execucao #15)
+Pior custo          : 1184.1174  (execucao #1)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 1147.0356
+Custo medio (SA)         : 1182.8814
+Melhor (SA) - otimo      : 317.0356  (38.1971% pior que o otimo)
+Media (SA) - otimo       : 352.8814  (42.5158% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 0.0000%  (0/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 37.0818  (3.1316%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #15)
+====================================================
+Custo: 1147.0356
+Route #1: 76 69 7 52 18 41 13 73 66 
+Route #2: 68 35 47 53 28 46 74 
+Route #3: 27 8 36 9 20 55 14 58 16 38 
+Route #4: 5 31 75 29 63 23 2 
+Route #5: 3 34 64 17 4 45 33 
+Route #6: 30 49 48 22 37 72 61 71 6 
+Route #7: 59 11 39 12 54 56 
+Route #8: 40 10 26 51 19 25 50 24 70 
+Route #9: 15 60 67 32 21 
+Route #10: 62 65 43 42 57 44 
+Cost 1147.0356
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1    1184.1174       0.0337
+   2    1184.1174       0.0342
+   3    1184.1174       0.0313
+   4    1184.1174       0.0320
+   5    1184.1174       0.0330
+   6    1184.1174       0.0326
+   7    1184.1174       0.0319
+   8    1184.1174       0.0332
+   9    1184.1174       0.0320
+  10    1184.1174       0.0325
+  11    1184.1174       0.0349
+  12    1184.1174       0.0323
+  13    1184.1174       0.0320
+  14    1184.1174       0.0339
+  15    1147.0356       0.0319
+  16    1184.1174       0.0324
+  17    1184.1174       0.0348
+  18    1184.1174       0.0332
+  19    1184.1174       0.0312
+  20    1184.1174       0.0315
+  21    1184.1174       0.0312
+  22    1184.1174       0.0327
+  23    1184.1174       0.0321
+  24    1184.1174       0.0338
+  25    1184.1174       0.0339
+  26    1184.1174       0.0337
+  27    1184.1174       0.0341
+  28    1184.1174       0.0340
+  29    1184.1174       0.0338
+  30    1184.1174       0.0342

@@ -1,0 +1,80 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 4
+Clientes (excl. dep): 71
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 18 (qtdClient/4)
+Temperatura inicial : 1000.0000
+Taxa de decaimento  : 0.9950
+Temperatura final   : 1.0000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 0.0366 s
+Desvio padrao       : 0.0018 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 237
+Custo solu inicial  : 380.6609
+Custo medio         : 380.1311
+Mediana             : 380.6609
+Desvio padrao       : 1.8904
+Coef. de variacao   : 0.4973 %
+Melhor custo        : 372.5788  (execucao #4)
+Pior custo          : 380.6609  (execucao #1)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 372.5788
+Custo medio (SA)         : 380.1311
+Melhor (SA) - otimo      : 135.5788  (57.2062% pior que o otimo)
+Media (SA) - otimo       : 143.1311  (60.3929% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 0.0000%  (0/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 8.0821  (2.1232%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #4)
+====================================================
+Custo: 372.5788
+Route #1: 32 33 35 55 56 42 58 57 62 61 59 60 64 66 65 63 67 68 69 40 70 38 39 41 52 50 51 49 45 44 54 
+Route #2: 21 30 31 22 23 29 28 26 25 27 24 48 71 46 47 43 53 37 36 15 16 3 18 17 13 14 4 10 
+Route #3: 34 19 2 20 72 7 11 6 
+Route #4: 12 9 5 8 
+Cost 372.5788
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1     380.6609       0.0379
+   2     380.6609       0.0438
+   3     380.6609       0.0411
+   4     372.5788       0.0374
+   5     380.6609       0.0348
+   6     380.6609       0.0366
+   7     380.6609       0.0353
+   8     380.6609       0.0354
+   9     380.6609       0.0362
+  10     380.6609       0.0358
+  11     380.6609       0.0361
+  12     380.6609       0.0376
+  13     373.6085       0.0368
+  14     380.6609       0.0368
+  15     380.6609       0.0367
+  16     380.6609       0.0360
+  17     380.6609       0.0360
+  18     380.6609       0.0359
+  19     380.6609       0.0360
+  20     380.6609       0.0361
+  21     380.6609       0.0369
+  22     380.6609       0.0336
+  23     380.6609       0.0353
+  24     380.6609       0.0355
+  25     380.6609       0.0351
+  26     380.6609       0.0368
+  27     379.9026       0.0363
+  28     380.6609       0.0371
+  29     380.6609       0.0367
+  30     380.6609       0.0372

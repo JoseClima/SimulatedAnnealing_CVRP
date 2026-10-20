@@ -1,0 +1,78 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 2
+Clientes (excl. dep): 20
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 5 (qtdClient/4)
+Temperatura inicial : 1000.0000
+Taxa de decaimento  : 0.9950
+Temperatura final   : 1.0000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 0.0284 s
+Desvio padrao       : 0.0009 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 211
+Custo solu inicial  : 256.9215
+Custo medio         : 253.4852
+Mediana             : 256.7087
+Desvio padrao       : 5.7911
+Coef. de variacao   : 2.2846 %
+Melhor custo        : 231.8786  (execucao #28)
+Pior custo          : 256.9215  (execucao #1)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 231.8786
+Custo medio (SA)         : 253.4852
+Melhor (SA) - otimo      : 20.8786  (9.8951% pior que o otimo)
+Media (SA) - otimo       : 42.4852  (20.1352% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 3.3333%  (1/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 25.0428  (9.7473%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #28)
+====================================================
+Custo: 231.8786
+Route #1: 8 10 14 9 19 20 4 13 16 12 5 2 
+Route #2: 17 11 3 6 15 18 21 7 
+Cost 231.8786
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1     256.9215       0.0328
+   2     256.9215       0.0289
+   3     244.6825       0.0278
+   4     256.9215       0.0279
+   5     253.1714       0.0281
+   6     255.7449       0.0285
+   7     244.6303       0.0287
+   8     256.9215       0.0281
+   9     256.9215       0.0279
+  10     247.5986       0.0281
+  11     252.8502       0.0285
+  12     256.5215       0.0280
+  13     256.9215       0.0284
+  14     256.9215       0.0279
+  15     256.9215       0.0281
+  16     256.9215       0.0280
+  17     256.8958       0.0281
+  18     256.1709       0.0282
+  19     256.9215       0.0285
+  20     255.6597       0.0283
+  21     256.9215       0.0282
+  22     256.9215       0.0281
+  23     256.9215       0.0281
+  24     255.5330       0.0288
+  25     252.4975       0.0283
+  26     256.9215       0.0284
+  27     243.0776       0.0279
+  28     231.8786       0.0282
+  29     247.9103       0.0280
+  30     252.8324       0.0280

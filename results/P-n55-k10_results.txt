@@ -1,0 +1,86 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 10
+Clientes (excl. dep): 54
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 13 (qtdClient/4)
+Temperatura inicial : 1000.0000
+Taxa de decaimento  : 0.9950
+Temperatura final   : 1.0000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 0.0904 s
+Desvio padrao       : 0.0264 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 694
+Custo solu inicial  : 874.6570
+Custo medio         : 874.6380
+Mediana             : 874.6570
+Desvio padrao       : 0.0836
+Coef. de variacao   : 0.0096 %
+Melhor custo        : 874.2018  (execucao #26)
+Pior custo          : 874.6570  (execucao #1)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 874.2018
+Custo medio (SA)         : 874.6380
+Melhor (SA) - otimo      : 180.2018  (25.9657% pior que o otimo)
+Media (SA) - otimo       : 180.6380  (26.0285% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 0.0000%  (0/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 0.4552  (0.0520%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #26)
+====================================================
+Custo: 874.2018
+Route #1: 27 13 41 18 52 4 50 
+Route #2: 5 35 47 53 28 
+Route #3: 7 3 31 49 48 16 
+Route #4: 8 36 9 20 55 14 46 24 
+Route #5: 29 2 44 42 43 23 37 
+Route #6: 30 6 38 21 22 45 
+Route #7: 17 25 19 51 33 
+Route #8: 40 10 26 32 11 
+Route #9: 54 15 12 39 
+Route #10: 34 
+Cost 874.2018
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1     874.6570       0.1053
+   2     874.6570       0.1061
+   3     874.6570       0.1047
+   4     874.6570       0.1059
+   5     874.6570       0.1052
+   6     874.6570       0.1061
+   7     874.5416       0.1051
+   8     874.6570       0.1051
+   9     874.6570       0.1120
+  10     874.6570       0.1047
+  11     874.6570       0.1054
+  12     874.6570       0.1047
+  13     874.6570       0.1050
+  14     874.6570       0.1049
+  15     874.6570       0.1057
+  16     874.6570       0.1079
+  17     874.6570       0.1112
+  18     874.6570       0.1053
+  19     874.6570       0.1052
+  20     874.6570       0.1042
+  21     874.6570       0.1063
+  22     874.6570       0.1047
+  23     874.6570       0.0743
+  24     874.6570       0.0412
+  25     874.6570       0.0423
+  26     874.2018       0.0489
+  27     874.6570       0.0432
+  28     874.6570       0.0439
+  29     874.6570       0.0435
+  30     874.6570       0.0441

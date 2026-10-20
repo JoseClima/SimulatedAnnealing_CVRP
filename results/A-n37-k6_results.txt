@@ -1,0 +1,82 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 6
+Clientes (excl. dep): 36
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 9 (qtdClient/4)
+Temperatura inicial : 1000.0000
+Taxa de decaimento  : 0.9950
+Temperatura final   : 1.0000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 0.0316 s
+Desvio padrao       : 0.0018 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 949
+Custo solu inicial  : 1341.8779
+Custo medio         : 1070.5669
+Mediana             : 1070.1061
+Desvio padrao       : 23.1819
+Coef. de variacao   : 2.1654 %
+Melhor custo        : 1025.6227  (execucao #6)
+Pior custo          : 1115.6008  (execucao #1)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 1025.6227
+Custo medio (SA)         : 1070.5669
+Melhor (SA) - otimo      : 76.6227  (8.0741% pior que o otimo)
+Media (SA) - otimo       : 121.5669  (12.8100% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 10.0000%  (3/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 316.2552  (23.5681%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #6)
+====================================================
+Custo: 1025.6227
+Route #1: 5 18 34 10 29 3 22 21 
+Route #2: 11 23 24 13 12 27 35 
+Route #3: 19 14 31 16 33 
+Route #4: 7 2 4 9 6 20 32 
+Route #5: 25 26 36 28 
+Route #6: 17 8 15 37 30 
+Cost 1025.6227
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1    1115.6008       0.0377
+   2    1109.9894       0.0316
+   3    1030.6305       0.0310
+   4    1068.2531       0.0306
+   5    1093.1286       0.0302
+   6    1025.6227       0.0378
+   7    1051.7212       0.0319
+   8    1049.8566       0.0310
+   9    1083.7077       0.0313
+  10    1105.5279       0.0311
+  11    1086.7128       0.0310
+  12    1050.6267       0.0325
+  13    1084.9770       0.0308
+  14    1096.3319       0.0314
+  15    1053.5931       0.0334
+  16    1069.2969       0.0309
+  17    1045.7414       0.0304
+  18    1100.1129       0.0311
+  19    1066.7772       0.0315
+  20    1070.9152       0.0317
+  21    1074.2437       0.0305
+  22    1085.4492       0.0332
+  23    1089.2624       0.0307
+  24    1051.7611       0.0312
+  25    1063.5647       0.0310
+  26    1058.5948       0.0305
+  27    1051.9472       0.0306
+  28    1033.2544       0.0306
+  29    1075.6601       0.0312
+  30    1074.1468       0.0305

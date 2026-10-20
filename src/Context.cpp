@@ -32,20 +32,24 @@ void Context::load(string& filename, int numVehicles){
                 file >> capacity;
             }
 
-            else if(word == "COMMENT"){
+           else if(word == "COMMENT"){
                 string comment;
                 std::getline(file, comment);
-                // procura "ptimal" — cobre "Optimal value: 784" e "Optimal value : 784"
+
                 size_t pos = comment.find("ptimal");
+                if(pos == string::npos) pos = comment.find("est value");
                 if(pos != string::npos){
                     size_t i = pos;
                     while(i < comment.size() && !isdigit((unsigned char)comment[i])) i++;
+
                     int val = 0;
+                    bool found = false;
                     while(i < comment.size() && isdigit((unsigned char)comment[i])){
                         val = val * 10 + (comment[i] - '0');
+                        found = true;
                         i++;
                     }
-                    optimalCost = val;
+                    if(found) optimalCost = val;
                 }
             }
 

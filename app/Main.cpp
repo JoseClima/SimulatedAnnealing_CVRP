@@ -86,19 +86,14 @@ int main(int argc, char* argv[]) {
     printf("Custo inicial: %.2f\n", custoInicial);
     initial.getRoute().printRoute();
 
-    Route r = initial.getRoute();
-    RNG rng(42);
-    bool ok = initial.applyRandomMove(r, ctx, numVehicles, rng);
-    printf("\nprimeiro movimento: %s, custo depois: %.2f\n",
-           ok ? "true" : "false", r.getTotalCost());
 
-    pair<double, SA> result = simAnneal(ctx, numVehicles, 1000.0, 0.999, 1.0);
+    pair<double, SA> result = simAnneal(ctx, numVehicles, 100000.0, 0.999, 1.0, 12000); //1000 e 0.995
     double custoFinal = result.first;
     printf("\n=== Solucao final (SA) ===\n");
     printf("Custo SA: %.2f\n", custoFinal);
     result.second.getRoute().printRoute();
 
-    printf("\nMelhoria: %.2f (%.2f%%)\n",
+    printf("\nCusto Inicial -> Custo Final: %.2f, melhoria de (%.2f%%)\n",
            custoInicial - custoFinal,
            100.0 * (custoInicial - custoFinal) / custoInicial);
 

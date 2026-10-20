@@ -1,0 +1,81 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 5
+Clientes (excl. dep): 50
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 12 (qtdClient/4)
+Temperatura inicial : 1000.0000
+Taxa de decaimento  : 0.9950
+Temperatura final   : 1.0000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 0.0323 s
+Desvio padrao       : 0.0016 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 521
+Custo solu inicial  : 776.5085
+Custo medio         : 773.6256
+Mediana             : 776.5085
+Desvio padrao       : 7.9359
+Coef. de variacao   : 1.0258 %
+Melhor custo        : 744.5731  (execucao #4)
+Pior custo          : 776.5085  (execucao #1)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 744.5731
+Custo medio (SA)         : 773.6256
+Melhor (SA) - otimo      : 223.5731  (42.9123% pior que o otimo)
+Media (SA) - otimo       : 252.6256  (48.4886% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 0.0000%  (0/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 31.9355  (4.1127%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #4)
+====================================================
+Custo: 744.5731
+Route #1: 15 42 20 41 45 38 16 40 46 34 18 
+Route #2: 13 5 43 14 26 19 7 
+Route #3: 49 8 25 44 24 27 9 29 23 3 47 
+Route #4: 48 12 30 22 35 11 6 50 51 31 
+Route #5: 28 39 10 17 4 21 36 37 32 2 33 
+Cost 744.5731
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1     776.5085       0.0378
+   2     776.5085       0.0316
+   3     774.4622       0.0304
+   4     744.5731       0.0310
+   5     776.5085       0.0305
+   6     776.5085       0.0307
+   7     776.5085       0.0331
+   8     776.5085       0.0311
+   9     763.8492       0.0311
+  10     765.5423       0.0321
+  11     776.5085       0.0324
+  12     776.5085       0.0313
+  13     776.5085       0.0316
+  14     747.6271       0.0327
+  15     776.5085       0.0314
+  16     776.5085       0.0316
+  17     776.5085       0.0329
+  18     776.5085       0.0322
+  19     776.5085       0.0319
+  20     776.5085       0.0340
+  21     776.5085       0.0333
+  22     776.5085       0.0308
+  23     776.5085       0.0324
+  24     776.5085       0.0324
+  25     776.5085       0.0328
+  26     776.5085       0.0328
+  27     776.5085       0.0331
+  28     776.5085       0.0331
+  29     776.5085       0.0364
+  30     776.5085       0.0304

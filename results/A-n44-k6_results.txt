@@ -1,0 +1,82 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 6
+Clientes (excl. dep): 43
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 11 (qtdClient/4)
+Temperatura inicial : 1000.0000
+Taxa de decaimento  : 0.9950
+Temperatura final   : 1.0000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 0.0890 s
+Desvio padrao       : 0.0088 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 937
+Custo solu inicial  : 1328.6927
+Custo medio         : 1110.7188
+Mediana             : 1107.0695
+Desvio padrao       : 37.4079
+Coef. de variacao   : 3.3679 %
+Melhor custo        : 1034.1201  (execucao #15)
+Pior custo          : 1185.1921  (execucao #26)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 1034.1201
+Custo medio (SA)         : 1110.7188
+Melhor (SA) - otimo      : 97.1201  (10.3650% pior que o otimo)
+Media (SA) - otimo       : 173.7188  (18.5399% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 0.0000%  (0/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 294.5726  (22.1701%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #15)
+====================================================
+Custo: 1034.1201
+Route #1: 40 31 24 44 41 30 42 
+Route #2: 8 25 34 6 22 33 38 43 11 
+Route #3: 29 28 20 16 9 32 
+Route #4: 13 27 12 17 21 19 2 36 
+Route #5: 5 35 18 4 23 3 
+Route #6: 7 26 10 37 39 14 15 
+Cost 1034.1201
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1    1090.4348       0.1344
+   2    1130.9744       0.1002
+   3    1086.7256       0.0877
+   4    1126.4721       0.0868
+   5    1182.9962       0.0873
+   6    1093.9891       0.0913
+   7    1107.9216       0.0888
+   8    1130.0183       0.0866
+   9    1110.8374       0.0864
+  10    1107.6819       0.0865
+  11    1083.3077       0.0867
+  12    1088.5624       0.0867
+  13    1065.3707       0.0866
+  14    1100.9062       0.0863
+  15    1034.1201       0.0863
+  16    1066.2331       0.0863
+  17    1148.1064       0.0863
+  18    1173.9569       0.0872
+  19    1091.0959       0.0869
+  20    1080.4410       0.0863
+  21    1086.7726       0.0863
+  22    1178.7972       0.0870
+  23    1119.3090       0.0865
+  24    1106.4571       0.0871
+  25    1148.3975       0.0877
+  26    1185.1921       0.0868
+  27    1065.4257       0.0863
+  28    1131.7483       0.0864
+  29    1127.0163       0.0864
+  30    1072.2971       0.0873

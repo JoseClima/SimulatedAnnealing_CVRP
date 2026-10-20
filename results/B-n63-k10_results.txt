@@ -1,0 +1,86 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 10
+Clientes (excl. dep): 62
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 15 (qtdClient/4)
+Temperatura inicial : 1000.0000
+Taxa de decaimento  : 0.9950
+Temperatura final   : 1.0000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 0.0453 s
+Desvio padrao       : 0.0020 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 1496
+Custo solu inicial  : 2067.0662
+Custo medio         : 1772.2583
+Mediana             : 1775.7292
+Desvio padrao       : 27.7010
+Coef. de variacao   : 1.5630 %
+Melhor custo        : 1711.9870  (execucao #28)
+Pior custo          : 1822.5896  (execucao #23)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 1711.9870
+Custo medio (SA)         : 1772.2583
+Melhor (SA) - otimo      : 215.9870  (14.4376% pior que o otimo)
+Media (SA) - otimo       : 276.2583  (18.4665% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 0.0000%  (0/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 355.0792  (17.1779%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #28)
+====================================================
+Custo: 1711.9870
+Route #1: 5 50 32 4 41 45 
+Route #2: 30 29 49 56 14 
+Route #3: 34 36 7 13 44 12 24 54 39 11 
+Route #4: 61 17 47 57 9 60 31 
+Route #5: 43 27 15 58 26 
+Route #6: 62 53 52 22 63 3 40 23 
+Route #7: 46 38 
+Route #8: 8 21 37 28 51 2 19 
+Route #9: 33 6 48 10 16 
+Route #10: 25 18 42 55 59 20 35 
+Cost 1711.9870
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1    1771.1326       0.0478
+   2    1714.7354       0.0514
+   3    1768.8797       0.0479
+   4    1815.6994       0.0446
+   5    1731.1741       0.0440
+   6    1782.7215       0.0495
+   7    1791.0350       0.0452
+   8    1794.7220       0.0439
+   9    1769.7419       0.0449
+  10    1793.2324       0.0447
+  11    1804.0722       0.0472
+  12    1760.4478       0.0445
+  13    1770.7467       0.0451
+  14    1789.4988       0.0445
+  15    1769.3519       0.0436
+  16    1751.0010       0.0446
+  17    1741.3134       0.0438
+  18    1760.9532       0.0442
+  19    1780.3258       0.0444
+  20    1793.9434       0.0442
+  21    1805.5347       0.0435
+  22    1744.8741       0.0449
+  23    1822.5896       0.0436
+  24    1788.4127       0.0436
+  25    1784.6045       0.0456
+  26    1723.0764       0.0440
+  27    1785.1623       0.0453
+  28    1711.9870       0.0494
+  29    1764.6069       0.0444
+  30    1782.1731       0.0447

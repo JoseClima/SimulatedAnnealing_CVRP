@@ -122,13 +122,13 @@ bool SA::applyRandomMove(Route& route, Context& ctx, int numVehicles, RNG& rng){
 }
 
 pair<double, SA> simAnneal(Context &ctx, int numVehicles,
-                           double initialTemp, double decayRate, double finalTemp){
+                           double initialTemp, double decayRate, double finalTemp,
+                           int maxTempTrails){
 
     int r = 0, n, attempts;
     double T = initialTemp, deltaC, currentCost, bestCost;
-    const int MaxTempTrails = 1000;
-    const int SoluPerTemp   = 100;
-    const int maxAttemps    = SoluPerTemp * 2;
+    const int SoluPerTemp = 100;
+    const int maxAttemps = SoluPerTemp * 2;
     bool result;
     RNG rng(chrono::now().time_since_epoch().count());
 
@@ -168,7 +168,7 @@ pair<double, SA> simAnneal(Context &ctx, int numVehicles,
         r++;
         T = decayRate * T;
 
-    } while(r < MaxTempTrails && T > finalTemp);
+    } while(r < maxTempTrails && T > finalTemp);
 
     return {bestCost, SA(ctx, numVehicles, instBest)};
 }

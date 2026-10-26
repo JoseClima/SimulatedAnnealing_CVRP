@@ -7,75 +7,76 @@ Numero de veiculos  : 5
 Clientes (excl. dep): 33
 
 --- Parametros do SA ---
-Vizinhos (nearest)  : 8 (qtdClient/4)
-Temperatura inicial : 1000.0000
-Taxa de decaimento  : 0.9950
-Temperatura final   : 1.0000
+Vizinhos (nearest)  : 8
+Temperatura inicial : 5000.0000
+Taxa de decaimento  : 0.9990
+Temperatura final   : 0.5000
+Max iteracoes       : 9400
 
 --- Estatisticas de Tempo ---
-Tempo medio         : 0.0367 s
-Desvio padrao       : 0.0010 s
+Tempo medio         : 0.5095 s
+Desvio padrao       : 0.1962 s
 
 --- Estatisticas de Custo ---
 Custo otimo         : 778
 Custo solu inicial  : 892.5239
-Custo medio         : 858.8553
-Mediana             : 858.0707
-Desvio padrao       : 17.5449
-Coef. de variacao   : 2.0428 %
-Melhor custo        : 822.1901  (execucao #19)
-Pior custo          : 892.5239  (execucao #11)
+Custo medio         : 800.7516
+Mediana             : 800.3831
+Desvio padrao       : 10.7514
+Coef. de variacao   : 1.3427 %
+Melhor custo        : 785.6340  (execucao #13)
+Pior custo          : 841.6043  (execucao #28)
 
 --- Comparacoes ---
-Melhor custo (SA)        : 822.1901
-Custo medio (SA)         : 858.8553
-Melhor (SA) - otimo      : 44.1901  (5.6800% pior que o otimo)
-Media (SA) - otimo       : 80.8553  (10.3927% pior que o otimo)
-Taxa de sucesso (<=10% otimo): 40.0000%  (12/30 execucoes dentro de 10% do otimo)
-Melhor (SA) - Inicial        : 70.3338  (7.8803%)
+Melhor custo (SA)        : 785.6340
+Custo medio (SA)         : 800.7516
+Melhor (SA) - otimo      : 7.6340  (0.9812% pior que o otimo)
+Media (SA) - otimo       : 22.7516  (2.9244% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 100.0000%  (30/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 106.8899  (11.9761%)
 
 ====================================================
-  MELHOR SOLUCAO (execucao #19)
+  MELHOR SOLUCAO (execucao #13)
 ====================================================
-Custo: 822.1901
-Route #1: 7 8 18 20 12 16 15 
+Custo: 785.6340
+Route #1: 15 30 9 16 7 8 
 Route #2: 19 22 33 29 32 26 14 
-Route #3: 3 23 4 13 10 17 34 21 
-Route #4: 25 31 6 5 27 
-Route #5: 30 24 28 2 9 11 
-Cost 822.1901
+Route #3: 2 28 24 12 20 18 11 
+Route #4: 3 13 4 10 23 17 34 21 
+Route #5: 5 27 6 31 25 
+Cost 785.6340
 
 ====================================================
   TODAS AS EXECUCOES
 ====================================================
    #     Custo(s)      Tempo(s)
-   1     857.8089       0.0368
-   2     864.7396       0.0409
-   3     867.3504       0.0356
-   4     831.5745       0.0350
-   5     849.5955       0.0361
-   6     833.4771       0.0359
-   7     839.6467       0.0366
-   8     829.0978       0.0359
-   9     851.9269       0.0364
-  10     852.1334       0.0370
-  11     892.5239       0.0359
-  12     843.3233       0.0360
-  13     853.1259       0.0369
-  14     857.9640       0.0364
-  15     883.2823       0.0368
-  16     874.5371       0.0374
-  17     892.5239       0.0366
-  18     854.3633       0.0364
-  19     822.1901       0.0366
-  20     856.5866       0.0372
-  21     879.5964       0.0372
-  22     873.0470       0.0366
-  23     860.3134       0.0364
-  24     843.5026       0.0367
-  25     858.5079       0.0365
-  26     858.1774       0.0365
-  27     872.6876       0.0376
-  28     877.4972       0.0364
-  29     867.4057       0.0374
-  30     867.1539       0.0373
+   1     801.8000       0.6973
+   2     800.4507       0.8346
+   3     794.6906       0.8018
+   4     797.3880       0.7922
+   5     802.4171       0.8074
+   6     786.4978       0.4295
+   7     802.7468       0.3505
+   8     803.7534       0.3425
+   9     800.6832       0.3403
+  10     798.3908       0.3464
+  11     807.9715       0.3456
+  12     794.2030       0.3440
+  13     785.6340       0.3578
+  14     794.7389       0.3872
+  15     801.2490       0.4018
+  16     800.6657       0.3684
+  17     796.8842       0.6852
+  18     802.8864       0.7967
+  19     824.0852       0.7976
+  20     800.4607       0.7821
+  21     793.4227       0.7884
+  22     800.3156       0.5139
+  23     795.4546       0.3399
+  24     796.6208       0.3381
+  25     811.5211       0.3528
+  26     791.6308       0.3638
+  27     811.6368       0.3556
+  28     841.6043       0.3515
+  29     789.3169       0.3664
+  30     793.4271       0.5056

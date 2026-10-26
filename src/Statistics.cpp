@@ -32,10 +32,17 @@ static double computeMedian(std::vector<double> values) {
     return (values[n / 2 - 1] + values[n / 2]) / 2.0;
 }
 
-Statistics::Statistics(Context& ctx, int numVehicles, int numExecutions,
-                       double initialTemp, double decayRate, double finalTemp)
-    : ctx(ctx), numVehicles(numVehicles), numExecutions(numExecutions),
-      initialTemp(initialTemp), decayRate(decayRate), finalTemp(finalTemp),
+Statistics::Statistics(Context& ctx, int numVehicles, 
+                        int numExecutions, double initialTemp, 
+                        double decayRate, double finalTemp,
+                        int maxTempTrails)
+    : ctx(ctx), 
+      numVehicles(numVehicles), 
+      numExecutions(numExecutions),
+      initialTemp(initialTemp), 
+      decayRate(decayRate), 
+      finalTemp(finalTemp),
+      maxTempTrails(maxTempTrails),
       results(),
       bestRoute(numVehicles),
       bestCost(numeric_limits<double>::max()),
@@ -54,7 +61,8 @@ void Statistics::run(string& outputFile) {
         auto start = steady_clock::now();
 
         pair<double, SA> res = simAnneal(ctx, numVehicles,
-                                         initialTemp, decayRate, finalTemp);
+                                 initialTemp, decayRate, finalTemp,
+                                 maxTempTrails);
 
         auto end = steady_clock::now();
         double elapsed = duration<double>(end - start).count();
@@ -152,10 +160,11 @@ void Statistics::saveStatistics(string& outputFile) {
     out << "Clientes (excl. dep): " << ctx.getQtdClients()       << "\n";
 
     out << "\n--- Parametros do SA ---\n";
-    out << "Vizinhos (nearest)  : " << ctx.getNearestNeighbors() << " (qtdClient/4)\n";
+    out << "Vizinhos (nearest)  : " << ctx.getNearestNeighbors() << "\n";
     out << "Temperatura inicial : " << initialTemp << "\n";
     out << "Taxa de decaimento  : " << decayRate   << "\n";
-    out << "Temperatura final   : " << finalTemp   << "\n\n";
+    out << "Temperatura final   : " << finalTemp   << "\n";
+    out << "Max iteracoes       : " << maxTempTrails << "\n\n";
 
     out << "--- Estatisticas de Tempo ---\n";
     out << "Tempo medio         : " << meanTime << " s\n";

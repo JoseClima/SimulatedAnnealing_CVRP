@@ -71,10 +71,11 @@ int main(int argc, char* argv[]) {
         string outFile = "results/" + baseName + "_results.txt";
 
         Statistics stats(ctx, numVehicles,
-                         30,       // execucoes
-                         1000.0,   // temperatura inicial
-                         0.995,    // taxa de decaimento
-                         1.0);     // temperatura final
+                         30,      // execucoes
+                         5000,     // temperatura inicial
+                         0.999,    // taxa de decaimento
+                         0.5,     // temperatura final
+                         9400);    // max de iterações 
         stats.run(outFile);
         return 0;
     }

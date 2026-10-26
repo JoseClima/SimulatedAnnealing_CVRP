@@ -20,6 +20,7 @@ class Statistics {
         double initialTemp;
         double decayRate;
         double finalTemp;
+        int maxTempTrails;
 
         vector<ExecutionStat> results;
 
@@ -31,7 +32,8 @@ class Statistics {
 
     public:
         Statistics(Context& ctx, int numVehicles, int numExecutions = 30,
-                   double initialTemp = 1000000, double decayRate = 0.9999, double finalTemp = 1);
+                   double initialTemp = 1000000, double decayRate = 0.9999, 
+                   double finalTemp = 1, int maxTempTrails = 1000);
 
         void run(string& outputFile);
 };

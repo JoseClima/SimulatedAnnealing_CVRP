@@ -1,0 +1,82 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 5
+Clientes (excl. dep): 35
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 9
+Temperatura inicial : 20000.0000
+Taxa de decaimento  : 0.9997
+Temperatura final   : 0.0500
+Max iteracoes       : 40000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 1.5535 s
+Desvio padrao       : 0.2648 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 799
+Custo solu inicial  : 1108.5220
+Custo medio         : 824.7660
+Mediana             : 823.7839
+Desvio padrao       : 9.4032
+Coef. de variacao   : 1.1401 %
+Melhor custo        : 804.5060  (execucao #7)
+Pior custo          : 847.0770  (execucao #11)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 804.5060
+Custo medio (SA)         : 824.7660
+Melhor (SA) - otimo      : 5.5060  (0.6891% pior que o otimo)
+Media (SA) - otimo       : 25.7660  (3.2248% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 100.0000%  (30/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 304.0160  (27.4253%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #7)
+====================================================
+Custo: 804.5060
+Route #1: 17 12 25 28 26 6 21 
+Route #2: 11 8 27 
+Route #3: 10 7 4 5 20 32 13 
+Route #4: 2 22 19 34 30 31 18 14 33 23 
+Route #5: 29 15 35 24 3 36 9 16 
+Cost 804.5060
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1     816.7906       1.3636
+   2     818.4733       1.3481
+   3     838.2081       2.4639
+   4     829.1319       2.5897
+   5     823.1288       1.5158
+   6     809.7650       1.4971
+   7     804.5060       1.4839
+   8     834.0796       1.4943
+   9     824.4391       1.4771
+  10     833.9448       1.5099
+  11     847.0770       1.5030
+  12     815.9649       1.5027
+  13     826.8901       1.4739
+  14     841.2890       1.4859
+  15     819.9590       1.5013
+  16     814.2950       1.3824
+  17     822.0527       1.5007
+  18     819.5445       1.4893
+  19     830.7076       1.5094
+  20     830.6076       1.5046
+  21     836.5197       1.4888
+  22     820.4262       1.4590
+  23     822.6717       1.5111
+  24     817.3652       1.4824
+  25     817.7148       1.4797
+  26     815.1017       1.4867
+  27     825.1145       1.4989
+  28     826.0644       1.4963
+  29     833.9120       1.6111
+  30     827.2359       1.4946

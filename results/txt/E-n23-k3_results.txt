@@ -1,0 +1,80 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 3
+Clientes (excl. dep): 22
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 5
+Temperatura inicial : 20000.0000
+Taxa de decaimento  : 0.9997
+Temperatura final   : 0.0500
+Max iteracoes       : 40000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 1.3213 s
+Desvio padrao       : 0.0532 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 569
+Custo solu inicial  : 746.7344
+Custo medio         : 573.4521
+Mediana             : 570.2573
+Desvio padrao       : 6.4672
+Coef. de variacao   : 1.1278 %
+Melhor custo        : 568.5625  (execucao #2)
+Pior custo          : 594.8601  (execucao #5)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 568.5625
+Custo medio (SA)         : 573.4521
+Melhor (SA) - otimo      : -0.4375  (-0.0769% pior que o otimo)
+Media (SA) - otimo       : 4.4521  (0.7824% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 100.0000%  (30/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 178.1719  (23.8601%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #2)
+====================================================
+Custo: 568.5625
+Route #1: 13 12 7 2 3 4 17 16 15 18 23 21 20 19 
+Route #2: 11 14 
+Route #3: 22 5 6 9 10 8 
+Cost 568.5625
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1     570.3624       1.1810
+   2     568.5625       1.2350
+   3     582.9330       1.2510
+   4     568.5625       1.3095
+   5     594.8601       1.2956
+   6     568.5625       1.3003
+   7     570.1523       1.3395
+   8     568.5625       1.3338
+   9     578.1493       1.3226
+  10     568.5625       1.3173
+  11     587.7924       1.4433
+  12     577.8711       1.3741
+  13     574.7627       1.4752
+  14     570.0137       1.3114
+  15     568.5625       1.3092
+  16     569.8846       1.3161
+  17     577.7562       1.3041
+  18     568.5625       1.3393
+  19     580.7397       1.3188
+  20     581.0073       1.3050
+  21     571.8136       1.3387
+  22     573.6961       1.3339
+  23     568.5625       1.3136
+  24     569.7461       1.3183
+  25     568.5625       1.3030
+  26     573.4219       1.4027
+  27     571.3970       1.2948
+  28     568.5625       1.3222
+  29     573.0157       1.3020
+  30     568.5625       1.3286

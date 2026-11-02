@@ -237,6 +237,9 @@ CVRP_SA_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 CVRP_SA_SOURCE_DIR:STATIC=C:/Users/Paulo/Desktop/JoseProgramacao/VRP
 
+//Path to a program.
+PYTHON_EXEC:FILEPATH=C:/msys64/ucrt64/bin/python3.exe
+
 //Nome da pasta de testes (ex: A, B).
 TESTS_DIR:STRING=A
 

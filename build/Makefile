@@ -195,6 +195,19 @@ run-stats-folders/fast:
 .PHONY : run-stats-folders/fast
 
 #=============================================================================
+# Target rules for targets named export-csv
+
+# Build rule for target.
+export-csv: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 export-csv
+.PHONY : export-csv
+
+# fast build rule for target.
+export-csv/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\export-csv.dir\build.make CMakeFiles/export-csv.dir/build
+.PHONY : export-csv/fast
+
+#=============================================================================
 # Target rules for targets named targets
 
 # Build rule for target.
@@ -335,6 +348,7 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... export-csv
 	@echo ... run-all
 	@echo ... run-all-folders
 	@echo ... run-stats

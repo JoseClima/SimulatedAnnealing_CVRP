@@ -82,6 +82,7 @@ clean: CMakeFiles/run-all.dir/clean
 clean: CMakeFiles/run-stats.dir/clean
 clean: CMakeFiles/run-all-folders.dir/clean
 clean: CMakeFiles/run-stats-folders.dir/clean
+clean: CMakeFiles/export-csv.dir/clean
 clean: CMakeFiles/targets.dir/clean
 .PHONY : clean
 
@@ -124,7 +125,7 @@ CMakeFiles/cvrp_core.dir/clean:
 CMakeFiles/vrp_teste.dir/all: CMakeFiles/cvrp_core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\vrp_teste.dir\build.make CMakeFiles/vrp_teste.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\vrp_teste.dir\build.make CMakeFiles/vrp_teste.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\Paulo\Desktop\JoseProgramacao\VRP\build\CMakeFiles --progress-num=6,7 "Built target vrp_teste"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\Paulo\Desktop\JoseProgramacao\VRP\build\CMakeFiles --progress-num=7,8 "Built target vrp_teste"
 .PHONY : CMakeFiles/vrp_teste.dir/all
 
 # Build rule for subdir invocation for target.
@@ -141,7 +142,7 @@ vrp_teste: CMakeFiles/vrp_teste.dir/rule
 # codegen rule for target.
 CMakeFiles/vrp_teste.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\vrp_teste.dir\build.make CMakeFiles/vrp_teste.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\Paulo\Desktop\JoseProgramacao\VRP\build\CMakeFiles --progress-num=6,7 "Finished codegen for target vrp_teste"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\Paulo\Desktop\JoseProgramacao\VRP\build\CMakeFiles --progress-num=7,8 "Finished codegen for target vrp_teste"
 .PHONY : CMakeFiles/vrp_teste.dir/codegen
 
 # clean rule for target.
@@ -276,6 +277,38 @@ CMakeFiles/run-stats-folders.dir/codegen: CMakeFiles/vrp_teste.dir/all
 CMakeFiles/run-stats-folders.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\run-stats-folders.dir\build.make CMakeFiles/run-stats-folders.dir/clean
 .PHONY : CMakeFiles/run-stats-folders.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/export-csv.dir
+
+# All Build rule for target.
+CMakeFiles/export-csv.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\export-csv.dir\build.make CMakeFiles/export-csv.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\export-csv.dir\build.make CMakeFiles/export-csv.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\Paulo\Desktop\JoseProgramacao\VRP\build\CMakeFiles --progress-num=6 "Built target export-csv"
+.PHONY : CMakeFiles/export-csv.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/export-csv.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Paulo\Desktop\JoseProgramacao\VRP\build\CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/export-csv.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Paulo\Desktop\JoseProgramacao\VRP\build\CMakeFiles 0
+.PHONY : CMakeFiles/export-csv.dir/rule
+
+# Convenience name for target.
+export-csv: CMakeFiles/export-csv.dir/rule
+.PHONY : export-csv
+
+# codegen rule for target.
+CMakeFiles/export-csv.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\export-csv.dir\build.make CMakeFiles/export-csv.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\Paulo\Desktop\JoseProgramacao\VRP\build\CMakeFiles --progress-num=6 "Finished codegen for target export-csv"
+.PHONY : CMakeFiles/export-csv.dir/codegen
+
+# clean rule for target.
+CMakeFiles/export-csv.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\export-csv.dir\build.make CMakeFiles/export-csv.dir/clean
+.PHONY : CMakeFiles/export-csv.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/targets.dir

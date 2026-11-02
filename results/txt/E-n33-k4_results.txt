@@ -1,0 +1,81 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 4
+Clientes (excl. dep): 32
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 8
+Temperatura inicial : 20000.0000
+Taxa de decaimento  : 0.9997
+Temperatura final   : 0.0500
+Max iteracoes       : 40000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 1.5900 s
+Desvio padrao       : 0.2562 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 835
+Custo solu inicial  : 1002.1898
+Custo medio         : 855.3987
+Mediana             : 857.8621
+Desvio padrao       : 10.8043
+Coef. de variacao   : 1.2631 %
+Melhor custo        : 837.9669  (execucao #26)
+Pior custo          : 876.4125  (execucao #1)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 837.9669
+Custo medio (SA)         : 855.3987
+Melhor (SA) - otimo      : 2.9669  (0.3553% pior que o otimo)
+Media (SA) - otimo       : 20.3987  (2.4430% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 100.0000%  (30/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 164.2229  (16.3864%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #26)
+====================================================
+Custo: 837.9669
+Route #1: 5 8 10 9 33 12 13 3 
+Route #2: 14 18 26 25 24 21 23 22 20 19 11 7 6 4 
+Route #3: 2 16 27 28 17 29 30 
+Route #4: 31 15 32 
+Cost 837.9669
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1     876.4125       1.4530
+   2     871.4956       1.4672
+   3     840.4907       2.6123
+   4     854.2062       2.4617
+   5     842.1663       1.4953
+   6     860.8025       1.5570
+   7     863.5972       1.4760
+   8     838.1672       1.4772
+   9     846.4045       1.5863
+  10     841.7405       1.5501
+  11     858.4336       1.4878
+  12     866.1011       1.5613
+  13     844.2411       1.4865
+  14     867.8477       1.5057
+  15     860.2636       1.5093
+  16     849.1385       1.5360
+  17     868.0734       1.5630
+  18     868.3596       1.5575
+  19     857.2905       1.5303
+  20     848.1483       1.4991
+  21     859.5161       1.5701
+  22     862.5749       1.5586
+  23     863.3045       1.5249
+  24     861.3487       1.5676
+  25     845.2703       1.5296
+  26     837.9669       1.4810
+  27     840.4907       1.4951
+  28     856.8160       1.5274
+  29     848.8029       1.5474
+  30     862.4902       1.5254

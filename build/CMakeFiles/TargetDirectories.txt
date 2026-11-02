@@ -4,6 +4,7 @@ C:/Users/Paulo/Desktop/JoseProgramacao/VRP/build/CMakeFiles/run-all.dir
 C:/Users/Paulo/Desktop/JoseProgramacao/VRP/build/CMakeFiles/run-stats.dir
 C:/Users/Paulo/Desktop/JoseProgramacao/VRP/build/CMakeFiles/run-all-folders.dir
 C:/Users/Paulo/Desktop/JoseProgramacao/VRP/build/CMakeFiles/run-stats-folders.dir
+C:/Users/Paulo/Desktop/JoseProgramacao/VRP/build/CMakeFiles/export-csv.dir
 C:/Users/Paulo/Desktop/JoseProgramacao/VRP/build/CMakeFiles/targets.dir
 C:/Users/Paulo/Desktop/JoseProgramacao/VRP/build/CMakeFiles/edit_cache.dir
 C:/Users/Paulo/Desktop/JoseProgramacao/VRP/build/CMakeFiles/rebuild_cache.dir

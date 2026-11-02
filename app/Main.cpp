@@ -68,14 +68,14 @@ int main(int argc, char* argv[]) {
         size_t dot = baseName.find_last_of('.');
         if (dot != string::npos) baseName = baseName.substr(0, dot);
 
-        string outFile = "results/" + baseName + "_results.txt";
+        string outFile = "results/txt/" + baseName + "_results.txt";
 
         Statistics stats(ctx, numVehicles,
                          30,      // execucoes
-                         5000,     // temperatura inicial
-                         0.999,    // taxa de decaimento
-                         0.5,     // temperatura final
-                         9400);    // max de iterações 
+                         20000,     // temperatura inicial
+                         0.9997,    // taxa de decaimento
+                         0.05,     // temperatura final
+                         40000);    // max de iterações 
         stats.run(outFile);
         return 0;
     }

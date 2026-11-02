@@ -72,10 +72,30 @@ add_batch_run(run-stats         VRP_A   "--statistics")
 add_batch_run(run-all-folders   VRP_ALL "")
 add_batch_run(run-stats-folders VRP_ALL "--statistics")
 
+# ---- Target: exportar results/txt para results/CSV ----
+find_program(PYTHON_EXEC NAMES python3 python)
+
+if(PYTHON_EXEC)
+    set(RESULTS_TXT_DIR "${CMAKE_SOURCE_DIR}/results/txt")
+    set(RESULTS_CSV_DIR "${CMAKE_SOURCE_DIR}/results/csv")
+
+    add_custom_target(export-csv
+        COMMAND ${PYTHON_EXEC}
+                ${CMAKE_SOURCE_DIR}/scripts/results_to_csv.py
+                ${RESULTS_TXT_DIR}
+                --out-dir ${RESULTS_CSV_DIR}
+                --per-exec
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Exportando results/txt/*.txt -> results/csv/*.csv"
+        VERBATIM)
+else()
+    message(STATUS "Python nao encontrado — target 'export-csv' desabilitado")
+endif()
+
 # ---- targets ----
 add_custom_target(targets
     COMMAND ${CMAKE_COMMAND} -E echo "Pasta atual: ${_TESTS_DIR}"
-    COMMAND ${CMAKE_COMMAND} -E echo "Alvos: run-all, run-stats, run-all-folders, run-stats-folders, clean"
+    COMMAND ${CMAKE_COMMAND} -E echo "Alvos: run-all, run-stats, run-all-folders, run-stats-folders, export-csv, clean"
     VERBATIM)
 
 # ---- Copia tests/ para build/ ----
@@ -84,3 +104,4 @@ add_custom_command(TARGET vrp_teste POST_BUILD
         ${CMAKE_CURRENT_SOURCE_DIR}/${TESTS_ROOT}
         $<TARGET_FILE_DIR:vrp_teste>/${TESTS_ROOT}
 )
+

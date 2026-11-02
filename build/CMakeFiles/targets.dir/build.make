@@ -67,7 +67,7 @@ include CMakeFiles/targets.dir/progress.make
 
 CMakeFiles/targets:
 	C:\msys64\ucrt64\bin\cmake.exe -E echo "Pasta atual: instances/A"
-	C:\msys64\ucrt64\bin\cmake.exe -E echo "Alvos: run-all, run-stats, run-all-folders, run-stats-folders, clean"
+	C:\msys64\ucrt64\bin\cmake.exe -E echo "Alvos: run-all, run-stats, run-all-folders, run-stats-folders, export-csv, clean"
 
 CMakeFiles/targets.dir/codegen:
 .PHONY : CMakeFiles/targets.dir/codegen

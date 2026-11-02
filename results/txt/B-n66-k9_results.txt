@@ -1,0 +1,86 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 9
+Clientes (excl. dep): 65
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 16
+Temperatura inicial : 20000.0000
+Taxa de decaimento  : 0.9997
+Temperatura final   : 0.0500
+Max iteracoes       : 40000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 1.8981 s
+Desvio padrao       : 0.2676 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 1316
+Custo solu inicial  : 1646.0370
+Custo medio         : 1361.5469
+Mediana             : 1361.0256
+Desvio padrao       : 9.5586
+Coef. de variacao   : 0.7020 %
+Melhor custo        : 1345.9231  (execucao #23)
+Pior custo          : 1385.5178  (execucao #29)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 1345.9231
+Custo medio (SA)         : 1361.5469
+Melhor (SA) - otimo      : 29.9231  (2.2738% pior que o otimo)
+Media (SA) - otimo       : 45.5469  (3.4610% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 100.0000%  (30/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 300.1139  (18.2325%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #23)
+====================================================
+Custo: 1345.9231
+Route #1: 7 3 11 64 47 27 26 
+Route #2: 2 8 31 65 45 60 49 38 
+Route #3: 25 13 50 10 28 
+Route #4: 29 17 63 62 48 51 
+Route #5: 53 24 19 55 21 54 
+Route #6: 37 22 61 16 5 4 30 40 15 6 
+Route #7: 18 12 20 36 39 58 56 42 
+Route #8: 43 34 66 9 41 33 59 
+Route #9: 52 35 14 44 23 57 32 46 
+Cost 1345.9231
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1    1353.0220       1.6961
+   2    1377.2331       1.7529
+   3    1356.1928       3.0561
+   4    1358.3177       2.6704
+   5    1357.5503       1.8092
+   6    1360.8960       1.8032
+   7    1371.2573       1.8215
+   8    1368.8184       1.7820
+   9    1350.7768       1.8460
+  10    1358.8178       1.8031
+  11    1363.2691       1.8342
+  12    1347.6301       1.8427
+  13    1368.1284       1.8143
+  14    1371.0752       1.8822
+  15    1371.2567       1.8875
+  16    1347.5008       1.8289
+  17    1352.7629       1.8468
+  18    1363.5154       1.8693
+  19    1369.5080       1.8020
+  20    1354.0631       2.0010
+  21    1375.6463       1.7829
+  22    1364.2562       1.8250
+  23    1345.9231       1.8230
+  24    1369.4003       1.9201
+  25    1361.5238       1.8418
+  26    1361.1552       1.8177
+  27    1354.4683       1.8253
+  28    1355.1872       1.8298
+  29    1385.5178       1.8148
+  30    1351.7374       1.8142

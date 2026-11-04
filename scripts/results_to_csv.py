@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Converte results .txt em CSV.
+Converte results .txt (saida do SA) em CSV para analise em Python.
 
 Modos:
   # 1) Processar a pasta inteira (padrao)
   python scripts/results_to_csv.py
   python scripts/results_to_csv.py results/txt --per-exec
+  python scripts/results_to_csv.py results/txt --per-exec --experiment TesteA
 
   # 2) Processar UM arquivo especifico
-  python scripts/results_to_csv.py results/txt/A-n32-k5_results.txt
   python scripts/results_to_csv.py results/txt/A-n32-k5_results.txt --per-exec
 
 Saida padrao:
@@ -18,12 +18,15 @@ Saida padrao:
 
 import re
 import csv
+import math
+from fractions import Fraction
 import argparse
 from pathlib import Path
 
 
-# ---------------------- parsing (igual ao anterior) ----------------------
+# ---------------------- parsing (secoes do .txt) ----------------------
 def parse_results_file(filepath: Path):
+    """Le um *_results.txt e retorna (sections, per_execution)."""
     sections = {"basic": {}, "time": {}, "cost": {}, "comparisons": {}}
     current = "basic"
     in_table = False
@@ -34,6 +37,7 @@ def parse_results_file(filepath: Path):
             line = raw.strip()
             if not line:
                 continue
+
             if "--- Estatisticas de Tempo ---" in line:
                 current = "time";  in_table = False; continue
             if "--- Estatisticas de Custo ---" in line:
@@ -67,7 +71,9 @@ def parse_results_file(filepath: Path):
     return sections, per_execution
 
 
+# ---------------------- utilitarios de extracao ----------------------
 def _num(text, default=None):
+    """Extrai o primeiro numero (int/float) de um texto."""
     if text is None:
         return default
     m = re.search(r"-?\d+\.?\d*", text)
@@ -75,6 +81,7 @@ def _num(text, default=None):
 
 
 def _paren(text):
+    """Extrai o conteudo entre parenteses (ex: '(0.64% pior...)' -> '0.64% pior...')."""
     if text is None:
         return None
     m = re.search(r"\(([^)]+)\)", text)
@@ -82,13 +89,39 @@ def _paren(text):
 
 
 def _find_comp(comp: dict, prefix: str):
+    """Busca a primeira chave da secao 'Comparacoes' que comeca com 'prefix'."""
     for key, val in comp.items():
         if key.startswith(prefix):
             return val
     return None
 
 
-def flatten(sections, filename: str) -> dict:
+def _safe_div(a, b):
+    return (a / b) if (b not in (None, 0)) else None
+
+
+def _build_config_id(t0, decay, tf, it, n):
+    """Identificador deterministico e curto para uma configuracao."""
+    if t0 is None or decay is None or tf is None or it is None or n is None:
+        return None
+    # formata floats de forma estavel (sem lixo de representacao binaria)
+    def fmt(x):
+        return f"{x:g}"
+    return f"T{fmt(t0)}_d{fmt(decay)}_Tf{fmt(tf)}_it{int(it)}_n{int(n)}"
+
+
+def _compute_levels(t0, decay, tf, max_iter):
+    """Numero efetivo de niveis termicos executados pelo SA."""
+    if None in (t0, decay, tf, max_iter):
+        return None
+    if t0 <= 0 or tf <= 0 or decay <= 0 or decay >= 1 or tf >= t0:
+        return None
+    L = math.log(t0 / tf) / math.log(1.0 / decay)
+    return min(math.ceil(L), int(max_iter))
+
+
+# ---------------------- flatten: 1 linha de summary ----------------------
+def flatten(sections, filename: str, experiment: str = "") -> dict:
     b, t, c, cmp_ = sections["basic"], sections["time"], sections["cost"], sections["comparisons"]
 
     instance = Path(filename).name
@@ -100,8 +133,10 @@ def flatten(sections, filename: str) -> dict:
     succ_txt     = _find_comp(cmp_, "Taxa de sucesso")
     imp_txt      = _find_comp(cmp_, "Melhor (SA) - Inicial")
 
-    return {
+    # ---- campos originais ----
+    row = {
         "instance":              instance,
+        "experiment":            experiment,
         "num_executions":        _num(b.get("Numero de execucoes")),
         "num_vehicles":          _num(b.get("Numero de veiculos")),
         "num_clients":           _num(b.get("Clientes (excl. dep)")),
@@ -129,6 +164,58 @@ def flatten(sections, filename: str) -> dict:
         "improvement_best_pct":  _num(_paren(imp_txt)),
     }
 
+    # ---- derivadas: melhoria media/mediana/pior vs inicial ----
+    inj = row["initial_solution_cost"]
+    row["improvement_mean_pct"]   = _safe_div(100 * (inj - row["mean_cost"]), inj)   if inj else None
+    row["improvement_median_pct"] = _safe_div(100 * (inj - row["median_cost"]), inj) if inj else None
+    row["improvement_worst_pct"]  = _safe_div(100 * (inj - row["worst_cost"]), inj)  if inj else None
+
+    # ---- derivadas: gap ao otimo (mediana e pior) ----
+    opt = row["optimal_cost"]
+    row["median_vs_optimal_pct"] = _safe_div(100 * (row["median_cost"] - opt), opt) if opt else None
+    row["worst_vs_optimal_pct"]  = _safe_div(100 * (row["worst_cost"]  - opt), opt) if opt else None
+
+    # ---- derivadas: dispersao ----
+    if row["best_cost"] is not None and row["worst_cost"] is not None:
+        row["range_cost"] = row["worst_cost"] - row["best_cost"]
+        row["spread_pct"] = _safe_div(100 * row["range_cost"], row["mean_cost"])
+    else:
+        row["range_cost"] = None
+        row["spread_pct"] = None
+
+    # ---- derivadas: eficiencia computacional ----
+    levels = _compute_levels(row["initial_temp"], row["decay_rate"],
+                             row["final_temp"], row["max_iterations"])
+    row["levels_effective"] = levels
+    row["time_per_level_ms"] = (
+        _safe_div(row["mean_time_s"] * 1000.0, levels) if levels else None
+    )
+    row["improvement_per_second"] = _safe_div(row["improvement_best_abs"], row["mean_time_s"])
+
+    # ---- identificador da configuracao ----
+    row["config_id"] = _build_config_id(
+        row["initial_temp"], row["decay_rate"], row["final_temp"],
+        row["max_iterations"], row["nearest_neighbors"],
+    )
+    
+        # ---- fracao de vizinhos ----
+    n  = row["nearest_neighbors"]
+    nc = row["num_clients"]
+    if n is not None and nc is not None:
+        nd = nc + 1                                    
+        row["nearest_ratio_nodes"]   = n / nd           
+
+        frac = Fraction(int(n), int(nd))              
+        if frac.denominator <= 16:                     
+            row["nearest_fraction"] = f"{frac.numerator}/{frac.denominator}"
+        else:                                         
+            row["nearest_fraction"] = f"{int(n)}/{nd}"
+    else:
+        row["nearest_ratio_nodes"]   = None
+        row["nearest_fraction"]      = None
+
+    return row
+
 
 # ---------------------- escrita CSV ----------------------
 def _write_csv(rows, path: Path, fieldnames=None):
@@ -142,21 +229,29 @@ def _write_csv(rows, path: Path, fieldnames=None):
     print(f"[OK] {path}  ({len(rows)} linhas)")
 
 
-# ---------------------- modos de execucao ----------------------
-def process_file(filepath: Path, out_dir: Path, per_exec: bool):
+# ---------------------- modos ----------------------
+def process_file(filepath: Path, out_dir: Path, per_exec: bool, experiment: str):
     sec, per = parse_results_file(filepath)
-    row = flatten(sec, filepath.name)
+    row = flatten(sec, filepath.name, experiment=experiment)
     instance = row["instance"]
 
     _write_csv([row], out_dir / f"{instance}_summary.csv")
 
     if per_exec and per:
-        exec_rows = [{"instance": instance, **p} for p in per]
+        exec_rows = [{
+            "instance":   instance,
+            "config_id":  row["config_id"],
+            "experiment": experiment,
+            "execution":  p["execution"],
+            "cost":       p["cost"],
+            "time_s":     p["time_s"],
+        } for p in per]
         _write_csv(exec_rows, out_dir / f"{instance}_execution.csv",
-                   fieldnames=["instance", "execution", "cost", "time_s"])
+                   fieldnames=["instance", "config_id", "experiment",
+                               "execution", "cost", "time_s"])
 
 
-def process_folder(input_dir: Path, out_dir: Path, per_exec: bool):
+def process_folder(input_dir: Path, out_dir: Path, per_exec: bool, experiment: str):
     files = sorted(input_dir.glob("*_results.txt"))
     if not files:
         print(f"[!] Nenhum *_results.txt em '{input_dir}'")
@@ -168,22 +263,29 @@ def process_folder(input_dir: Path, out_dir: Path, per_exec: bool):
     for f in files:
         try:
             sec, per = parse_results_file(f)
-            row = flatten(sec, f.name)
+            row = flatten(sec, f.name, experiment=experiment)
             summary_rows.append(row)
             for pe in per:
-                exec_rows.append({"instance": row["instance"], **pe})
+                exec_rows.append({
+                    "instance":   row["instance"],
+                    "config_id":  row["config_id"],
+                    "experiment": experiment,
+                    "execution":  pe["execution"],
+                    "cost":       pe["cost"],
+                    "time_s":     pe["time_s"],
+                })
         except Exception as e:
             print(f"[!] Erro em {f}: {e}")
 
     _write_csv(summary_rows, out_dir / "results_summary.csv")
     if per_exec and exec_rows:
         _write_csv(exec_rows, out_dir / "results_per_execution.csv",
-                   fieldnames=["instance", "execution", "cost", "time_s"])
+                   fieldnames=["instance", "config_id", "experiment",
+                               "execution", "cost", "time_s"])
 
 
 # ---------------------- CLI ----------------------
 def _resolve_inputs(args):
-    # 1) input
     if args.input:
         inp = Path(args.input)
     elif Path("results/txt").is_dir():
@@ -191,11 +293,10 @@ def _resolve_inputs(args):
     else:
         inp = Path("results")
 
-    # 2) output
     if args.out_dir:
         out = Path(args.out_dir)
     elif inp.is_dir() and inp.name == "txt":
-        out = inp.parent / "csv"          # results/txt -> results/csv
+        out = inp.parent / "csv"
     else:
         out = Path("results/csv")
 
@@ -211,15 +312,17 @@ def main():
                    help="Pasta de saida. Padrao: results/csv")
     p.add_argument("--per-exec", action="store_true",
                    help="Tambem gera CSV por execucao individual")
+    p.add_argument("--experiment", default="",
+                   help="Rotulo do experimento (ex: TesteA). Vai numa coluna extra.")
     args = p.parse_args()
 
     inp, out = _resolve_inputs(args)
 
     if inp.is_file():
         print(f"[i] Processando arquivo: {inp}")
-        process_file(inp, out, args.per_exec)
+        process_file(inp, out, args.per_exec, args.experiment)
     elif inp.is_dir():
-        process_folder(inp, out, args.per_exec)
+        process_folder(inp, out, args.per_exec, args.experiment)
     else:
         print(f"[!] Caminho invalido: {inp}")
 

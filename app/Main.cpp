@@ -32,35 +32,62 @@ int extractKFromFilename(string& path) {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        printf("Uso: %s <arquivo.vrp> [--statistics|-s]\n", argv[0]);
-        printf("  sem flag    -> execucao normal (uma vez)\n");
-        printf("  --statistics-> roda 30 vezes e gera arquivo .txt com estatisticas\n");
-        printf("Exemplo: %s tests/A-n45-k6.vrp --statistics\n", argv[0]);
+        printf("Uso: %s <arquivo.vrp> [opcoes]\n", argv[0]);
+        printf("  --statistics | -s        -> roda 30 vezes e salva .txt\n");
+        printf("  --t0 <double>            -> temperatura inicial (padrao 5000)\n");
+        printf("  --decay <double>         -> taxa de decaimento  (padrao 0.999)\n");
+        printf("  --tf <double>            -> temperatura final   (padrao 0.5)\n");
+        printf("  --iter <int>             -> max iteracoes       (padrao 20000)\n");
+        printf("  --nearest-fraction <d>   -> fracao da dimension (padrao 0.25)\n");
+        printf("  --tag <string>           -> sufixo no nome do arquivo de saida\n");
         return 1;
     }
 
     string filename = argv[1];
 
-    bool statisticsMode = false;
+    bool   statisticsMode = false;
+    double initialTemp    = 5000.0;
+    double decayRate      = 0.999;
+    double finalTemp      = 0.5;
+    int    maxIter        = 20000;
+    double nearestFrac    = 0.25;
+    string tag            = "";
+
     for (int i = 2; i < argc; ++i) {
         string arg = argv[i];
-        if (arg == "--statistics" || arg == "-s") statisticsMode = true;
+        auto needValue = [&]() -> bool {
+            if (i + 1 >= argc) {
+                printf("ERRO: flag '%s' requer valor\n", arg.c_str());
+                return false;
+            }
+            return true;
+        };
+
+        if      (arg == "--statistics" || arg == "-s") statisticsMode = true;
+        else if (arg == "--t0"    && needValue()) initialTemp = std::stod(argv[++i]);
+        else if (arg == "--decay" && needValue()) decayRate   = std::stod(argv[++i]);
+        else if (arg == "--tf"    && needValue()) finalTemp   = std::stod(argv[++i]);
+        else if (arg == "--iter"  && needValue()) maxIter     = std::stoi(argv[++i]);
+        else if (arg == "--nearest-fraction" && needValue())
+                                                  nearestFrac = std::stod(argv[++i]);
+        else if (arg == "--tag"   && needValue()) tag         = argv[++i];
     }
 
     int numVehicles = extractKFromFilename(filename);
-
     printf("Arquivo: %s\n", filename.c_str());
 
     Context ctx;
     ctx.load(filename, numVehicles);
     ctx.distances();
-    //ctx.buildNearestClients(15);
-    ctx.buildNearestClients(ctx.getDimension()/4);
 
-    printf("capacidade=%d, clientes=%d\n",
-           ctx.getVehicle(0).getCapacity(), ctx.getDimension());
+    int nearestK = std::max(1, (int)std::round(nearestFrac * ctx.getDimension()));
+    ctx.buildNearestClients(nearestK);
 
-    // modo estatisticas
+    printf("capacidade=%d, clientes=%d, nearest=%d (%.2f x dim)\n",
+           ctx.getVehicle(0).getCapacity(), ctx.getDimension(),
+           nearestK, nearestFrac);
+
+    //modo estatisticas
     if (statisticsMode) {
         string baseName = filename;
         size_t slash = baseName.find_last_of("/\\");
@@ -68,35 +95,30 @@ int main(int argc, char* argv[]) {
         size_t dot = baseName.find_last_of('.');
         if (dot != string::npos) baseName = baseName.substr(0, dot);
 
-        string outFile = "results/txt/" + baseName + "_results.txt";
+        string outFile = "results/txt/" + baseName
+                       + (tag.empty() ? "" : "_" + tag)
+                       + "_results.txt";
+
+        std::filesystem::create_directories("results/txt");
 
         Statistics stats(ctx, numVehicles,
-                         30,      // execucoes
-                         20000,     // temperatura inicial
-                         0.9997,    // taxa de decaimento
-                         0.05,     // temperatura final
-                         40000);    // max de iterações 
+                         30,
+                         initialTemp,
+                         decayRate,
+                         finalTemp,
+                         maxIter);
         stats.run(outFile);
         return 0;
     }
 
-    // modo normal
+    // modo normal 
     SA initial(ctx, numVehicles);
-    double custoInicial = initial.getRoute().getTotalCost();
-    printf("=== Solucao inicial ===\n");
-    printf("Custo inicial: %.2f\n", custoInicial);
-    initial.getRoute().printRoute();
+    printf("Custo inicial: %.2f\n", initial.getRoute().getTotalCost());
 
-
-    pair<double, SA> result = simAnneal(ctx, numVehicles, 100000.0, 0.999, 1.0, 12000); //1000 e 0.995
-    double custoFinal = result.first;
-    printf("\n=== Solucao final (SA) ===\n");
-    printf("Custo SA: %.2f\n", custoFinal);
+    pair<double, SA> result = simAnneal(ctx, numVehicles,
+                                        initialTemp, decayRate,
+                                        finalTemp, maxIter);
+    printf("\nCusto SA: %.2f\n", result.first);
     result.second.getRoute().printRoute();
-
-    printf("\nCusto Inicial -> Custo Final: %.2f, melhoria de (%.2f%%)\n",
-           custoInicial - custoFinal,
-           100.0 * (custoInicial - custoFinal) / custoInicial);
-
     return 0;
 }

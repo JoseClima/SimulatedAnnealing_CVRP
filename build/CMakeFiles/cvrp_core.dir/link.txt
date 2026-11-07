@@ -1,0 +1,2 @@
+C:\msys64\ucrt64\bin\ar.exe qc libcvrp_core.a CMakeFiles/cvrp_core.dir/src/Context.cpp.obj CMakeFiles/cvrp_core.dir/src/Route.cpp.obj CMakeFiles/cvrp_core.dir/src/SA.cpp.obj CMakeFiles/cvrp_core.dir/src/Statistics.cpp.obj
+C:\msys64\ucrt64\bin\ranlib.exe libcvrp_core.a

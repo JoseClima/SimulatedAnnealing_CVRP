@@ -16,7 +16,7 @@ static void writeRouteTo(std::ostream& out, Route& route) {
     for (int v = 0; v < route.getNumVehicles(); ++v) {
         out << "Route #" << (v + 1) << ": ";
         for (int clientIdx : route.getRoute(v)) {
-            out << (clientIdx + 1) << " ";
+            out << (clientIdx) << " ";
         }
         out << "\n";
     }
@@ -216,7 +216,6 @@ void Statistics::saveStatistics(string& outputFile) {
     out << "====================================================\n";
     out << "  MELHOR SOLUCAO (execucao #" << (bestIdx + 1) << ")\n";
     out << "====================================================\n";
-    out << "Custo: " << bestCost << "\n";
     writeRouteTo(out, bestRoute);
 
     out << "\n====================================================\n";

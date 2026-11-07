@@ -13,7 +13,7 @@ using std::ifstream;
 using std::pair;
 using std::sqrt;
 using std::pow;
-
+using std::round;
 
 void Context::load(string& filename, int numVehicles){
     ifstream file(filename);
@@ -96,7 +96,8 @@ void Context::distances(){
         for(int j = i+1; j < dimension; j++){
             double dx = clients[i].getX() - clients[j].getX();
             double dy = clients[i].getY() - clients[j].getY();
-            matrixDistances[i][j] = sqrt(dx*dx + dy*dy);
+            //matrixDistances[i][j] = sqrt(dx*dx + dy*dy);
+            matrixDistances[i][j] = round(sqrt(dx*dx + dy*dy));
             matrixDistances[j][i] = matrixDistances[i][j];
         }
     }

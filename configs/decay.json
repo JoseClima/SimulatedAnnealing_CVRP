@@ -1,0 +1,7 @@
+[
+  {"tag": "B_d995",   "t0": 5000, "decay": 0.995,  "tf": 0.5, "iter": 200000, "nearest_fraction": 0.25},
+  {"tag": "B_d997",   "t0": 5000, "decay": 0.997,  "tf": 0.5, "iter": 200000, "nearest_fraction": 0.25},
+  {"tag": "B_d999",   "t0": 5000, "decay": 0.999,  "tf": 0.5, "iter": 200000, "nearest_fraction": 0.25},
+  {"tag": "B_d9995",  "t0": 5000, "decay": 0.9995, "tf": 0.5, "iter": 200000, "nearest_fraction": 0.25},
+  {"tag": "B_d9999",  "t0": 5000, "decay": 0.9999, "tf": 0.5, "iter": 200000, "nearest_fraction": 0.25}
+]

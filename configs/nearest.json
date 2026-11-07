@@ -1,0 +1,8 @@
+[
+  {"tag": "E_n008", "t0": 5000, "decay": 0.999, "tf": 0.5, "iter": 20000, "nearest_fraction": 0.125},
+  {"tag": "E_n018", "t0": 5000, "decay": 0.999, "tf": 0.5, "iter": 20000, "nearest_fraction": 0.1875},
+  {"tag": "E_n025", "t0": 5000, "decay": 0.999, "tf": 0.5, "iter": 20000, "nearest_fraction": 0.25},
+  {"tag": "E_n037", "t0": 5000, "decay": 0.999, "tf": 0.5, "iter": 20000, "nearest_fraction": 0.375},
+  {"tag": "E_n050", "t0": 5000, "decay": 0.999, "tf": 0.5, "iter": 20000, "nearest_fraction": 0.5},
+  {"tag": "E_n100", "t0": 5000, "decay": 0.999, "tf": 0.5, "iter": 20000, "nearest_fraction": 0.99}
+]

@@ -1,0 +1,8 @@
+[
+  {"tag": "A_T500",   "t0": 500,   "decay": 0.999, "tf": 0.5, "iter": 20000, "nearest_fraction": 0.25},
+  {"tag": "A_T1000",  "t0": 1000,  "decay": 0.999, "tf": 0.5, "iter": 20000, "nearest_fraction": 0.25},
+  {"tag": "A_T2500",  "t0": 2500,  "decay": 0.999, "tf": 0.5, "iter": 20000, "nearest_fraction": 0.25},
+  {"tag": "A_T5000",  "t0": 5000,  "decay": 0.999, "tf": 0.5, "iter": 20000, "nearest_fraction": 0.25},
+  {"tag": "A_T10000", "t0": 10000, "decay": 0.999, "tf": 0.5, "iter": 20000, "nearest_fraction": 0.25},
+  {"tag": "A_T20000", "t0": 20000, "decay": 0.999, "tf": 0.5, "iter": 20000, "nearest_fraction": 0.25}
+]

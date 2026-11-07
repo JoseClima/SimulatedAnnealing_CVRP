@@ -1,0 +1,7 @@
+[
+  {"tag": "C_tf001", "t0": 5000, "decay": 0.999, "tf": 0.01, "iter": 20000, "nearest_fraction": 0.25},
+  {"tag": "C_tf01",  "t0": 5000, "decay": 0.999, "tf": 0.1,  "iter": 20000, "nearest_fraction": 0.25},
+  {"tag": "C_tf05",  "t0": 5000, "decay": 0.999, "tf": 0.5,  "iter": 20000, "nearest_fraction": 0.25},
+  {"tag": "C_tf1",   "t0": 5000, "decay": 0.999, "tf": 1.0,  "iter": 20000, "nearest_fraction": 0.25},
+  {"tag": "C_tf5",   "t0": 5000, "decay": 0.999, "tf": 5.0,  "iter": 20000, "nearest_fraction": 0.25}
+]

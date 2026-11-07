@@ -68,7 +68,7 @@ void Route::printRoute() {
     for (size_t v = 0; v < routes.size(); ++v) {
         printf("Route #%zu: ", v + 1);
         for (int clientIdx : routes[v]) {
-            printf("%d ", clientIdx + 1);
+            printf("%d ", clientIdx);
         }
         printf("\n");
     }

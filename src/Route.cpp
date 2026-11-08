@@ -1,6 +1,10 @@
 #include "../include/Route.h"
+#include <cassert>
 
 void Route::addClient(int vehicle, int client, int position, Context& ctx){
+    // invariante: a capacidade nunca pode ser ultrapassada (some com -DNDEBUG)
+    assert(usedCapacity[vehicle] + ctx.getClient(client).getDemand() <= ctx.getVehicle(vehicle).getCapacity());
+
     if(position == -1 || position == (int)routes[vehicle].size()){
         routes[vehicle].push_back(client);
     } else {

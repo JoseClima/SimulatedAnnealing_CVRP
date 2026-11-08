@@ -1,0 +1,86 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 10
+Clientes (excl. dep): 62
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 16
+Temperatura inicial : 500.0000
+Taxa de decaimento  : 0.9990
+Temperatura final   : 0.5000
+Max iteracoes       : 20000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 0.3578 s
+Desvio padrao       : 0.0248 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 1496
+Custo solu inicial  : 2002.0000
+Custo medio         : 1592.4333
+Mediana             : 1593.5000
+Desvio padrao       : 15.6134
+Coef. de variacao   : 0.9805 %
+Melhor custo        : 1548.0000  (execucao #25)
+Pior custo          : 1627.0000  (execucao #5)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 1548.0000
+Custo medio (SA)         : 1592.4333
+Melhor (SA) - otimo      : 52.0000  (3.4759% pior que o otimo)
+Media (SA) - otimo       : 96.4333  (6.4461% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 100.0000%  (30/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 454.0000  (22.6773%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #25)
+====================================================
+Route #1: 29 28 
+Route #2: 42 33 26 6 58 14 
+Route #3: 18 1 20 7 38 53 23 10 37 
+Route #4: 57 11 43 17 24 54 12 41 25 35 52 
+Route #5: 50 27 36 45 
+Route #6: 34 22 9 47 15 
+Route #7: 60 5 55 13 32 48 
+Route #8: 44 16 40 3 4 31 
+Route #9: 39 62 21 51 2 19 61 
+Route #10: 56 46 59 8 30 49 
+Cost 1548.0000
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1    1587.0000       0.3476
+   2    1583.0000       0.3582
+   3    1587.0000       0.3700
+   4    1601.0000       0.3632
+   5    1627.0000       0.3527
+   6    1583.0000       0.3519
+   7    1579.0000       0.3410
+   8    1592.0000       0.3498
+   9    1594.0000       0.3488
+  10    1593.0000       0.3481
+  11    1624.0000       0.3499
+  12    1596.0000       0.3387
+  13    1599.0000       0.3954
+  14    1594.0000       0.3375
+  15    1596.0000       0.3473
+  16    1594.0000       0.3509
+  17    1583.0000       0.3443
+  18    1597.0000       0.3530
+  19    1576.0000       0.3483
+  20    1607.0000       0.3435
+  21    1574.0000       0.3463
+  22    1599.0000       0.3476
+  23    1622.0000       0.4553
+  24    1586.0000       0.4152
+  25    1548.0000       0.3910
+  26    1603.0000       0.3476
+  27    1586.0000       0.3501
+  28    1576.0000       0.3478
+  29    1582.0000       0.3467
+  30    1605.0000       0.3475

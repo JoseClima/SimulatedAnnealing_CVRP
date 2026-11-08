@@ -1,5 +1,12 @@
 #include "../include/SA.h"
 
+#include <algorithm>
+#include <limits>
+#include <numeric>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
 
 bool probability(double delta, double T, RNG& rng) {
     double prob = exp(-delta / T);
@@ -15,78 +22,189 @@ SA::SA(Context &ctx, int numVehicles)
 SA::SA(Context& ctx, int numVehicles, Route& existingRoute)
     : ctx(ctx), numVehicles(numVehicles), route(existingRoute) {}
 
-Route SA::initialSolution(){
-    Route newRoute(numVehicles);
-    vector<bool> visited(ctx.getDimension(), false);
+
+// ============================================================================
+// Solucao inicial
+// ----------------------------------------------------------------------------
+// Principio: um cliente so entra em uma rota DEPOIS de a capacidade ser
+// checada, entao nenhuma rota construida aqui pode estourar Q. Cada construtor
+// devolve true somente se TODOS os clientes foram atendidos; caso contrario a
+// tentativa inteira e descartada (nunca "remendada" depois).
+// ============================================================================
+namespace {
+
+// Vizinho Mais Proximo sequencial (um veiculo por vez).
+//   fitFactor = 0 : NN puro (melhor qualidade geografica).
+//   fitFactor > 0 : quando a folga do veiculo fica <= fitFactor * (maior demanda
+//                   ainda nao atendida), escolhe o cliente de MAIOR demanda que
+//                   cabe (melhor encaixe) em vez do mais proximo. Isso reduz a
+//                   capacidade desperdicada ao fechar cada rota, que e o que
+//                   deixa clientes sem veiculo no final.
+bool buildNearestNeighbor(Context& ctx, int numVehicles, double fitFactor, Route& out) {
+    const int n = ctx.getDimension();
+    vector<bool> visited(n, false);
     visited[0] = true;
+    int remaining = n - 1;
 
-    int current, used;
+    for (int v = 0; v < numVehicles && remaining > 0; v++) {
+        const int capacity = ctx.getVehicle(v).getCapacity();
+        int current = 0;
+        int used = 0;
 
-    for (int v = 0; v < numVehicles; v++){
-        current = 0;
-        used = 0;
+        while (remaining > 0) {
+            int next = -1;
 
-        while (true){
-            int nextClient = -1;
-
-            for(int neighbor : ctx.getClient(current).getNearest()){
-                if(!visited[neighbor] &&
-                   used + ctx.getClient(neighbor).getDemand() <= ctx.getVehicle(v).getCapacity()){
-                    nextClient = neighbor;
-                    break;
+            bool tight = false;
+            if (fitFactor > 0.0) {
+                int maxDemand = 0;
+                for (int c = 1; c < n; c++) {
+                    if (!visited[c]) maxDemand = std::max(maxDemand, ctx.getClient(c).getDemand());
                 }
+                tight = (capacity - used) <= fitFactor * maxDemand;
             }
 
-            if(nextClient == -1){
-                double bestDist = numeric_limits<double>::max();
-                for (int c = 1; c < ctx.getDimension(); c++){
-                    if(!visited[c] &&
-                       used + ctx.getClient(c).getDemand() <= ctx.getVehicle(v).getCapacity()){
-                        if(ctx.getDistance(current, c) < bestDist){
-                            nextClient = c;
+            if (tight) {
+                // melhor encaixe: maior demanda que cabe; empate -> mais proximo
+                int bestDemand = -1;
+                double bestDist = std::numeric_limits<double>::max();
+                for (int c = 1; c < n; c++) {
+                    const int d = ctx.getClient(c).getDemand();
+                    if (visited[c] || used + d > capacity) continue;
+                    const double dist = ctx.getDistance(current, c);
+                    if (d > bestDemand || (d == bestDemand && dist < bestDist)) {
+                        next = c;
+                        bestDemand = d;
+                        bestDist = dist;
+                    }
+                }
+            } else {
+                // 1) lista pre-computada de vizinhos (acelera a busca)
+                for (int neighbor : ctx.getClient(current).getNearest()) {
+                    if (!visited[neighbor] &&
+                        used + ctx.getClient(neighbor).getDemand() <= capacity) {
+                        next = neighbor;
+                        break;
+                    }
+                }
+                // 2) nenhum vizinho da lista serve: varredura completa
+                if (next == -1) {
+                    double bestDist = std::numeric_limits<double>::max();
+                    for (int c = 1; c < n; c++) {
+                        if (!visited[c] &&
+                            used + ctx.getClient(c).getDemand() <= capacity &&
+                            ctx.getDistance(current, c) < bestDist) {
+                            next = c;
                             bestDist = ctx.getDistance(current, c);
                         }
                     }
                 }
             }
-            if(nextClient == -1) break;
 
-            newRoute.addClient(v, nextClient, -1, ctx);
-            visited[nextClient] = true;
-            used   += ctx.getClient(nextClient).getDemand();
-            current = nextClient;
+            if (next == -1) break;   // nada cabe: fecha a rota e passa ao proximo veiculo
+
+            out.addClient(v, next, -1, ctx);
+            visited[next] = true;
+            used += ctx.getClient(next).getDemand();
+            current = next;
+            remaining--;
         }
     }
+    return remaining == 0;
+}
 
-    newRoute.updateAllCosts(ctx);
-    return newRoute;
+// Best Fit Decreasing: empacota os clientes por demanda decrescente no veiculo
+// em que a sobra de capacidade fica menor; depois ordena cada rota por NN.
+// Perde parte da coerencia geografica, por isso so e usado como ultimo recurso.
+bool buildBestFitDecreasing(Context& ctx, int numVehicles, Route& out) {
+    const int n = ctx.getDimension();
+
+    std::vector<int> order(n - 1);
+    std::iota(order.begin(), order.end(), 1);
+    std::stable_sort(order.begin(), order.end(), [&](int a, int b) {
+        return ctx.getClient(a).getDemand() > ctx.getClient(b).getDemand();
+    });
+
+    std::vector<std::vector<int>> bins(numVehicles);
+    std::vector<int> load(numVehicles, 0);
+
+    for (int c : order) {
+        const int d = ctx.getClient(c).getDemand();
+        int bestVehicle = -1;
+        int bestSlack = std::numeric_limits<int>::max();
+        for (int v = 0; v < numVehicles; v++) {
+            const int slack = ctx.getVehicle(v).getCapacity() - load[v] - d;
+            if (slack >= 0 && slack < bestSlack) {
+                bestSlack = slack;
+                bestVehicle = v;
+            }
+        }
+        if (bestVehicle == -1) return false;   // nao coube em nenhum veiculo
+        bins[bestVehicle].push_back(c);
+        load[bestVehicle] += d;
+    }
+
+    for (int v = 0; v < numVehicles; v++) {
+        std::vector<int>& bin = bins[v];
+        int current = 0;
+        while (!bin.empty()) {
+            size_t bestIdx = 0;
+            for (size_t i = 1; i < bin.size(); i++) {
+                if (ctx.getDistance(current, bin[i]) < ctx.getDistance(current, bin[bestIdx]))
+                    bestIdx = i;
+            }
+            const int c = bin[bestIdx];
+            out.addClient(v, c, -1, ctx);
+            bin.erase(bin.begin() + bestIdx);
+            current = c;
+        }
+    }
+    return true;
+}
+
+} // namespace
+
+
+Route SA::initialSolution(){
+    // Cascata de construcoes, da melhor qualidade geografica para a mais
+    // robusta em empacotamento. A primeira que atende todos os clientes vence.
+    static const double fitFactors[] = {0.0, 2.0};
+    for (double f : fitFactors) {
+        Route candidate(numVehicles);
+        if (buildNearestNeighbor(ctx, numVehicles, f, candidate)) return candidate;
+    }
+
+    Route candidate(numVehicles);
+    if (buildBestFitDecreasing(ctx, numVehicles, candidate)) return candidate;
+
+    // Com K fixo, achar uma solucao viavel e um problema de bin packing
+    // (NP-dificil): nenhuma heuristica gulosa garante sucesso. Em vez de
+    // estourar a capacidade em silencio, a falha e explicita.
+    throw std::runtime_error(
+        "Instancia sem solucao inicial viavel com " + std::to_string(numVehicles) +
+        " veiculos (as heuristicas de empacotamento falharam).");
 }
 
 bool SA::applyRandomMove(Route& route, Context& ctx, int numVehicles, RNG& rng){
+    // Rotas nao vazias; origem e destino sao sorteados uniformemente e distintos.
+    std::vector<int> active;
+    active.reserve(numVehicles);
+    for (int v = 0; v < numVehicles; v++) {
+        if (!route.routeEmpty(v)) active.push_back(v);
+    }
+    if (active.size() < 2) return false;
+
+    uni_int_dist pickFirst(0, (int)active.size() - 1);
+    uni_int_dist pickOther(0, (int)active.size() - 2);
+    const int i1 = pickFirst(rng);
+    int i2 = pickOther(rng);
+    if (i2 >= i1) i2++;
+    const int v1 = active[i1];
+    const int v2 = active[i2];
+
     b_distr optChoice(0.5);
-    bool OneOpt = optChoice(rng);
+    const bool OneOpt = optChoice(rng);
 
-    uni_int_dist vehJ(0, numVehicles - 1);
-    int antiloop = 0;
-
-    int v1 = vehJ(rng);
-    int v2 = vehJ(rng);
-
-    do{
-        v1 = (v1 + 1) % numVehicles;
-        antiloop++;
-    } while(antiloop < numVehicles && route.routeEmpty(v1));
-
-    antiloop = 0;
-
-    do{
-        v2 = (v2 + 1) % numVehicles;
-        antiloop++;
-    } while(antiloop < numVehicles && (v1 == v2 || route.routeEmpty(v2)));
-
-    if(v2 == v1) return false;
-
-    if(OneOpt){ // 1-opt: move cliente de v1 para v2
+    if(OneOpt){ // relocate: move cliente de v1 para v2 (moveClient confere a capacidade de v2)
         uni_int_dist pos1(0, (int)route.routeSize(v1) - 1);
         int fromPos = pos1(rng);
 
@@ -95,7 +213,7 @@ bool SA::applyRandomMove(Route& route, Context& ctx, int numVehicles, RNG& rng){
 
         return route.moveClient(v1, fromPos, v2, toPos, ctx);
     }
-    else { // 2-opt: troca clientes entre v1 e v2
+    else { // swap: troca clientes entre v1 e v2
         uni_int_dist pos1(0, (int)route.routeSize(v1) - 1);
         uni_int_dist pos2(0, (int)route.routeSize(v2) - 1);
 

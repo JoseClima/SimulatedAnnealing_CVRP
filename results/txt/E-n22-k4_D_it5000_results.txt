@@ -1,0 +1,80 @@
+====================================================
+   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING
+====================================================
+
+Numero de execucoes : 30
+Numero de veiculos  : 4
+Clientes (excl. dep): 21
+
+--- Parametros do SA ---
+Vizinhos (nearest)  : 6
+Temperatura inicial : 5000.0000
+Taxa de decaimento  : 0.9990
+Temperatura final   : 0.5000
+Max iteracoes       : 5000
+
+--- Estatisticas de Tempo ---
+Tempo medio         : 0.1759 s
+Desvio padrao       : 0.0024 s
+
+--- Estatisticas de Custo ---
+Custo otimo         : 375
+Custo solu inicial  : 464.0000
+Custo medio         : 463.7000
+Mediana             : 464.0000
+Desvio padrao       : 1.0050
+Coef. de variacao   : 0.2167 %
+Melhor custo        : 460.0000  (execucao #15)
+Pior custo          : 464.0000  (execucao #1)
+
+--- Comparacoes ---
+Melhor custo (SA)        : 460.0000
+Custo medio (SA)         : 463.7000
+Melhor (SA) - otimo      : 85.0000  (22.6667% pior que o otimo)
+Media (SA) - otimo       : 88.7000  (23.6533% pior que o otimo)
+Taxa de sucesso (<=10% otimo): 0.0000%  (0/30 execucoes dentro de 10% do otimo)
+Melhor (SA) - Inicial        : 4.0000  (0.8621%)
+
+====================================================
+  MELHOR SOLUCAO (execucao #15)
+====================================================
+Route #1: 14 16 13 11 8 10 
+Route #2: 12 15 18 20 17 
+Route #3: 9 7 5 2 1 3 
+Route #4: 19 21 4 6 
+Cost 460.0000
+
+====================================================
+  TODAS AS EXECUCOES
+====================================================
+   #     Custo(s)      Tempo(s)
+   1     464.0000       0.1775
+   2     464.0000       0.1761
+   3     464.0000       0.1763
+   4     464.0000       0.1753
+   5     464.0000       0.1745
+   6     464.0000       0.1762
+   7     464.0000       0.1737
+   8     464.0000       0.1744
+   9     464.0000       0.1732
+  10     464.0000       0.1771
+  11     464.0000       0.1730
+  12     464.0000       0.1735
+  13     464.0000       0.1748
+  14     463.0000       0.1760
+  15     460.0000       0.1742
+  16     464.0000       0.1753
+  17     464.0000       0.1748
+  18     464.0000       0.1745
+  19     464.0000       0.1747
+  20     464.0000       0.1745
+  21     464.0000       0.1742
+  22     464.0000       0.1758
+  23     464.0000       0.1754
+  24     464.0000       0.1752
+  25     464.0000       0.1856
+  26     464.0000       0.1790
+  27     464.0000       0.1773
+  28     464.0000       0.1792
+  29     464.0000       0.1772
+  30     460.0000       0.1777

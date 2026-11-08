@@ -7,6 +7,9 @@
 #include <cstdio>
 #include <cctype>
 #include <string>
+#include <stdexcept>
+#include <cmath>
+#include <algorithm>
 
 using std::string;
 
@@ -76,49 +79,59 @@ int main(int argc, char* argv[]) {
     int numVehicles = extractKFromFilename(filename);
     printf("Arquivo: %s\n", filename.c_str());
 
-    Context ctx;
-    ctx.load(filename, numVehicles);
-    ctx.distances();
+    // BLoco try-catch para evitar que o programa quebre caso a solucao inicial seja impossivel
+    try {
+        Context ctx;
+        ctx.load(filename, numVehicles);
+        ctx.distances();
 
-    int nearestK = std::max(1, (int)std::round(nearestFrac * ctx.getDimension()));
-    ctx.buildNearestClients(nearestK);
+        // fracao * dimension, arredondado, com piso em 1
+        int nearestK = std::max(1, (int)std::round(nearestFrac * ctx.getDimension()));
+        ctx.buildNearestClients(nearestK);
 
-    printf("capacidade=%d, clientes=%d, nearest=%d (%.2f x dim)\n",
-           ctx.getVehicle(0).getCapacity(), ctx.getDimension(),
-           nearestK, nearestFrac);
+        printf("capacidade=%d, clientes=%d, nearest=%d (%.2f x dim)\n",
+               ctx.getVehicle(0).getCapacity(), ctx.getDimension(),
+               nearestK, nearestFrac);
 
-    //modo estatisticas
-    if (statisticsMode) {
-        string baseName = filename;
-        size_t slash = baseName.find_last_of("/\\");
-        if (slash != string::npos) baseName = baseName.substr(slash + 1);
-        size_t dot = baseName.find_last_of('.');
-        if (dot != string::npos) baseName = baseName.substr(0, dot);
+        if (statisticsMode) {
+            string baseName = filename;
+            size_t slash = baseName.find_last_of("/\\");
+            if (slash != string::npos) baseName = baseName.substr(slash + 1);
+            size_t dot = baseName.find_last_of('.');
+            if (dot != string::npos) baseName = baseName.substr(0, dot);
 
-        string outFile = "results/txt/" + baseName
-                       + (tag.empty() ? "" : "_" + tag)
-                       + "_results.txt";
+            string outFile = "results/txt/" + baseName
+                           + (tag.empty() ? "" : "_" + tag)
+                           + "_results.txt";
 
-        std::filesystem::create_directories("results/txt");
+            std::filesystem::create_directories("results/txt");
 
-        Statistics stats(ctx, numVehicles,
-                         30,
-                         initialTemp,
-                         decayRate,
-                         finalTemp,
-                         maxIter);
-        stats.run(outFile);
-        return 0;
+            Statistics stats(ctx, numVehicles,
+                             30,
+                             initialTemp,
+                             decayRate,
+                             finalTemp,
+                             maxIter);
+            stats.run(outFile);
+            return 0;
+        }
+
+        // modo normal 
+        SA initial(ctx, numVehicles);
+        printf("Custo inicial: %.2f\n", initial.getRoute().getTotalCost());
+
+        pair<double, SA> result = simAnneal(ctx, numVehicles,
+                                            initialTemp, decayRate,
+                                            finalTemp, maxIter);
+        printf("\nCusto SA: %.2f\n", result.first);
+        result.second.getRoute().printRoute();
+        
+    } 
+    catch (const std::exception& e) {
+        printf("\n[ERRO FATAL] %s\n", e.what());
+        printf("O programa foi encerrado para evitar gerar solucoes invalidas (estouro de capacidade).\n");
+        return 1;
     }
 
-    // modo normal 
-    SA initial(ctx, numVehicles);
-    printf("Custo inicial: %.2f\n", initial.getRoute().getTotalCost());
-
-    pair<double, SA> result = simAnneal(ctx, numVehicles,
-                                        initialTemp, decayRate,
-                                        finalTemp, maxIter);
-    printf("\nCusto SA: %.2f\n", result.first);
-    result.second.getRoute().printRoute();
     return 0;
 }

@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cctype>
 #include <utility>
+#include <stdexcept>
 using std::vector;
 using std::sort;
 using std::string;
@@ -85,7 +86,7 @@ void Context::load(string& filename, int numVehicles){
 
     }
     else{
-        printf("Erro ao abrir o arquivo");
+        throw std::runtime_error("Erro ao abrir o arquivo: " + filename);
     }
 
 }
@@ -124,8 +125,9 @@ void Context::buildNearestClients(int maxNeighbors){
             }
         }
 
-        sort(distToOthers.begin(), distToOthers.end(), [](aux& a, aux &b){
-            return a.dist < b.dist;
+        sort(distToOthers.begin(), distToOthers.end(), [](const aux& a, const aux& b){
+            if (a.dist != b.dist) return a.dist < b.dist;
+            return a.position < b.position;   // desempate deterministico
         });
         
         int limit;

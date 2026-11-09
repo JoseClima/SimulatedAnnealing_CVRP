@@ -1,0 +1,12 @@
+# --- Compilação C++ ---
+build/
+*.exe
+*.o
+*.obj
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+

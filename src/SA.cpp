@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <fstream>
 
 
 bool probability(double delta, double T, RNG& rng) {
@@ -255,6 +256,15 @@ pair<double, SA> simAnneal(Context &ctx, int numVehicles,
     instBest  = instCurrent.getRoute();
     bestCost  = instBest.getTotalCost();
 
+    /*para testes
+    std::ofstream log_ac("results/csv/aceitacao_real.csv", std::ios::app);
+    std::ifstream check_file("results/txt/aceitacao_real.csv");
+    if (check_file.peek() == std::ifstream::traits_type::eof()) {
+        log_ac << "initialTemp,T,deltaC,accepted\n";
+    } 
+    check_file.close();
+    //
+    */
     do{
         n = 0;
         attempts = 0;
@@ -273,9 +283,32 @@ pair<double, SA> simAnneal(Context &ctx, int numVehicles,
                         bestCost = instBest.getTotalCost();
                     }
                 }
+                /*versao real comentada por causa do teste
+                */
                 else if(probability(deltaC, T, rng)){
-                    instCurrent.setRoute(instCandidate);
+                    instCurrent.setRoute(instCandidate);    
                 }
+
+
+                /*versão do teste
+                else {
+                    double prob = exp(-deltaC / T);
+                    std::bernoulli_distribution d(prob);
+                    bool aceitou = d(rng);
+
+                    if (aceitou) {
+                        instCurrent.setRoute(instCandidate);
+                    }
+
+                    // AMOSTRAGEM PARA O GRÁFICO (Apenas 1% dos movimentos piores)
+                    if (deltaC > 0 && (rng() % 100 == 0)) {
+                        log_ac << initialTemp << "," << T << "," << deltaC << "," << (aceitou ? 1 : 0) << "\n";
+                    }
+                }
+                */
+                //apagar aqui em cima
+
+
                 n++;
             }
             else {
@@ -287,6 +320,8 @@ pair<double, SA> simAnneal(Context &ctx, int numVehicles,
         T = decayRate * T;
 
     } while(r < maxTempTrails && T > finalTemp);
+
+    //log_ac.close();
 
     return {bestCost, SA(ctx, numVehicles, instBest)};
 }

@@ -85,7 +85,6 @@ int main(int argc, char* argv[]) {
         ctx.load(filename, numVehicles);
         ctx.distances();
 
-        // fracao * dimension, arredondado, com piso em 1
         int nearestK = std::max(1, (int)std::round(nearestFrac * ctx.getDimension()));
         ctx.buildNearestClients(nearestK);
 

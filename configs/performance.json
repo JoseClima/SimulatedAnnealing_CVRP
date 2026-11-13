@@ -1,0 +1,5 @@
+[
+  {"tag": "Perf_Refino", "t0": 5000, "decay": 0.9999, "tf": 0.01, "iter": 200000, "nearest_fraction": 0.25},
+  {"tag": "Perf_Explora", "t0": 10000, "decay": 0.9999, "tf": 0.01, "iter": 250000, "nearest_fraction": 0.25},
+  {"tag": "Perf_Extremo", "t0": 20000, "decay": 0.99995, "tf": 0.001, "iter": 400000, "nearest_fraction": 0.25}
+]

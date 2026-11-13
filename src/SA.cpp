@@ -24,23 +24,8 @@ SA::SA(Context& ctx, int numVehicles, Route& existingRoute)
     : ctx(ctx), numVehicles(numVehicles), route(existingRoute) {}
 
 
-// ============================================================================
-// Solucao inicial
-// ----------------------------------------------------------------------------
-// Principio: um cliente so entra em uma rota DEPOIS de a capacidade ser
-// checada, entao nenhuma rota construida aqui pode estourar Q. Cada construtor
-// devolve true somente se TODOS os clientes foram atendidos; caso contrario a
-// tentativa inteira e descartada (nunca "remendada" depois).
-// ============================================================================
 namespace {
 
-// Vizinho Mais Proximo sequencial (um veiculo por vez).
-//   fitFactor = 0 : NN puro (melhor qualidade geografica).
-//   fitFactor > 0 : quando a folga do veiculo fica <= fitFactor * (maior demanda
-//                   ainda nao atendida), escolhe o cliente de MAIOR demanda que
-//                   cabe (melhor encaixe) em vez do mais proximo. Isso reduz a
-//                   capacidade desperdicada ao fechar cada rota, que e o que
-//                   deixa clientes sem veiculo no final.
 bool buildNearestNeighbor(Context& ctx, int numVehicles, double fitFactor, Route& out) {
     const int n = ctx.getDimension();
     vector<bool> visited(n, false);
@@ -65,7 +50,6 @@ bool buildNearestNeighbor(Context& ctx, int numVehicles, double fitFactor, Route
             }
 
             if (tight) {
-                // melhor encaixe: maior demanda que cabe; empate -> mais proximo
                 int bestDemand = -1;
                 double bestDist = std::numeric_limits<double>::max();
                 for (int c = 1; c < n; c++) {
@@ -79,7 +63,6 @@ bool buildNearestNeighbor(Context& ctx, int numVehicles, double fitFactor, Route
                     }
                 }
             } else {
-                // 1) lista pre-computada de vizinhos (acelera a busca)
                 for (int neighbor : ctx.getClient(current).getNearest()) {
                     if (!visited[neighbor] &&
                         used + ctx.getClient(neighbor).getDemand() <= capacity) {
@@ -87,7 +70,6 @@ bool buildNearestNeighbor(Context& ctx, int numVehicles, double fitFactor, Route
                         break;
                     }
                 }
-                // 2) nenhum vizinho da lista serve: varredura completa
                 if (next == -1) {
                     double bestDist = std::numeric_limits<double>::max();
                     for (int c = 1; c < n; c++) {
@@ -162,12 +144,10 @@ bool buildBestFitDecreasing(Context& ctx, int numVehicles, Route& out) {
     return true;
 }
 
-} // namespace
+} 
 
 
 Route SA::initialSolution(){
-    // Cascata de construcoes, da melhor qualidade geografica para a mais
-    // robusta em empacotamento. A primeira que atende todos os clientes vence.
     static const double fitFactors[] = {0.0, 2.0};
     for (double f : fitFactors) {
         Route candidate(numVehicles);
@@ -177,16 +157,12 @@ Route SA::initialSolution(){
     Route candidate(numVehicles);
     if (buildBestFitDecreasing(ctx, numVehicles, candidate)) return candidate;
 
-    // Com K fixo, achar uma solucao viavel e um problema de bin packing
-    // (NP-dificil): nenhuma heuristica gulosa garante sucesso. Em vez de
-    // estourar a capacidade em silencio, a falha e explicita.
     throw std::runtime_error(
         "Instancia sem solucao inicial viavel com " + std::to_string(numVehicles) +
         " veiculos (as heuristicas de empacotamento falharam).");
 }
 
 bool SA::applyRandomMove(Route& route, Context& ctx, int numVehicles, RNG& rng){
-    // Rotas nao vazias; origem e destino sao sorteados uniformemente e distintos.
     std::vector<int> active;
     active.reserve(numVehicles);
     for (int v = 0; v < numVehicles; v++) {
@@ -240,42 +216,39 @@ bool SA::applyRandomMove(Route& route, Context& ctx, int numVehicles, RNG& rng){
     }
 }
 
-pair<double, SA> simAnneal(Context &ctx, int numVehicles,
-                           double initialTemp, double decayRate, double finalTemp,
+pair<double, SA> simAnneal(Context &ctx, 
+                           int numVehicles,
+                           double initialTemp, 
+                           double decayRate, 
+                           double finalTemp, 
                            int maxTempTrails){
 
-    int r = 0, n, attempts;
+    int nivelAtual = 0;
+    int movimentosValidos = 0;
+    int tentativasInvalidas = 0;
+
     double T = initialTemp, deltaC, currentCost, bestCost;
-    const int SoluPerTemp = 100;
-    const int maxAttemps = SoluPerTemp * 2;
+
+    int MAX_MOVIMENTOS_POR_NIVEL = 100; //cadeia de markov
+    int MAX_TENTATIVAS_INVALIDAS = MAX_MOVIMENTOS_POR_NIVEL * 2;
+
     bool result;
     RNG rng(chrono::now().time_since_epoch().count());
 
     SA instCurrent(ctx, numVehicles);
     Route instBest(numVehicles), instCandidate(numVehicles);
     instBest  = instCurrent.getRoute();
-    bestCost  = instBest.getTotalCost();
+    bestCost  = instBest.getTotalCost();                        
 
-    /*para testes
-    std::ofstream log_ac("results/csv/aceitacao_real.csv", std::ios::app);
-    std::ifstream check_file("results/txt/aceitacao_real.csv");
-    if (check_file.peek() == std::ifstream::traits_type::eof()) {
-        log_ac << "initialTemp,T,deltaC,accepted\n";
-    } 
-    check_file.close();
-    //
-    */
     do{
-        n = 0;
-        attempts = 0;
+        movimentosValidos = 0;
+        tentativasInvalidas = 0;
         do{
             instCandidate = instCurrent.getRoute();
-            result = instCurrent.applyRandomMove(instCandidate, ctx, numVehicles, rng);
-
+            result = instCurrent.applyRandomMove(instCandidate, ctx, numVehicles, rng);     
             if(result){
                 currentCost = instCurrent.getRoute().getTotalCost();
-                deltaC = instCandidate.getTotalCost() - currentCost;
-
+                deltaC = instCandidate.getTotalCost() - currentCost; 
                 if(deltaC < 0){
                     instCurrent.setRoute(instCandidate);
                     if(instCandidate.getTotalCost() < bestCost){
@@ -283,45 +256,17 @@ pair<double, SA> simAnneal(Context &ctx, int numVehicles,
                         bestCost = instBest.getTotalCost();
                     }
                 }
-                /*versao real comentada por causa do teste
-                */
                 else if(probability(deltaC, T, rng)){
                     instCurrent.setRoute(instCandidate);    
                 }
-
-
-                /*versão do teste
-                else {
-                    double prob = exp(-deltaC / T);
-                    std::bernoulli_distribution d(prob);
-                    bool aceitou = d(rng);
-
-                    if (aceitou) {
-                        instCurrent.setRoute(instCandidate);
-                    }
-
-                    // AMOSTRAGEM PARA O GRÁFICO (Apenas 1% dos movimentos piores)
-                    if (deltaC > 0 && (rng() % 100 == 0)) {
-                        log_ac << initialTemp << "," << T << "," << deltaC << "," << (aceitou ? 1 : 0) << "\n";
-                    }
-                }
-                */
-                //apagar aqui em cima
-
-
-                n++;
+                movimentosValidos++;
             }
             else {
-                attempts++;
+                tentativasInvalidas++;
             }
-        } while(n < SoluPerTemp && attempts < maxAttemps);
-
-        r++;
+        } while(movimentosValidos < MAX_MOVIMENTOS_POR_NIVEL && tentativasInvalidas < MAX_TENTATIVAS_INVALIDAS);
+        nivelAtual++;
         T = decayRate * T;
-
-    } while(r < maxTempTrails && T > finalTemp);
-
-    //log_ac.close();
-
+    } while(nivelAtual < maxTempTrails && T > finalTemp);
     return {bestCost, SA(ctx, numVehicles, instBest)};
 }

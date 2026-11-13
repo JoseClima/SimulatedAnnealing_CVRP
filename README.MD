@@ -1,6 +1,6 @@
 # VRP com SA
 
-Este projeto implementa o **Simulated Annealing (SA)** para o **CVRP** (Problema de Roteamento de Veículos com Capacidade), com foco em experimentação automatizada e análise de dados.
+Este projeto implementa o **Simulated Annealing (SA)** para o **CVRP** (Problema de Roteamento de Veículos com Capacidade), com propriedades em experimentação automatizada e análise de dados.
 
 ## 📋 Pré-requisitos ##
 Para rodar os scripts de análise e visualização, você precisará do Python 3 e das seguintes bibliotecas:

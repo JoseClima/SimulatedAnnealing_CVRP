@@ -62,10 +62,10 @@ bool buildNearestNeighbor(Context& ctx, int numVehicles, double fitFactor, Route
                         bestDist = dist;
                     }
                 }
-            } else {
+            } 
+            else {
                 for (int neighbor : ctx.getClient(current).getNearest()) {
-                    if (!visited[neighbor] &&
-                        used + ctx.getClient(neighbor).getDemand() <= capacity) {
+                    if (!visited[neighbor] && used + ctx.getClient(neighbor).getDemand() <= capacity) {
                         next = neighbor;
                         break;
                     }

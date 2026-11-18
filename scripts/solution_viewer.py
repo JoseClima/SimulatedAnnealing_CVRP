@@ -14,15 +14,12 @@ if len(sys.argv) < 3:
 caminho_instancia = sys.argv[1]
 caminho_solucao = sys.argv[2]
 
-# Extrai o nome do arquivo (ex: "A-n36-k5_TF1000")
 nome_base = os.path.splitext(os.path.basename(caminho_solucao))[0]
 
-# Define a pasta de saída como results/solucoes
 pasta_saida = os.path.join("results", "solucoes")
-os.makedirs(pasta_saida, exist_ok=True) # Cria a pasta se não existir
+os.makedirs(pasta_saida, exist_ok=True)
 caminho_pdf = os.path.join(pasta_saida, f"{nome_base}.pdf")
 
-# Carrega a instância
 instancia = ler_instancia(caminho_instancia, True)
 coords = {i: (x, y) for i, (x, y) in enumerate(instancia["COORDS"])}
 
@@ -41,7 +38,6 @@ for i in range(1, instancia["DIMENSION"]):
     x, y = coords[i]
     ax.scatter(x, y, c='black', s=30, zorder=4)
 
-# Lê as rotas do arquivo de texto
 with open(caminho_solucao, 'r', encoding='utf-8') as f:
     linhas = f.readlines()
 

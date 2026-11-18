@@ -107,7 +107,6 @@ def flatten(sections, filename: str, experiment: str = "") -> dict:
     if instance.endswith("_results.txt"):
         instance = instance[: -len("_results.txt")]
     
-    # Remove a tag do nome da instância
     if experiment and instance.endswith(f"_{experiment}"):
         instance = instance[: -len(f"_{experiment}")]
 

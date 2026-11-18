@@ -17,7 +17,6 @@ def load_configs(paths):
     for path in paths:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
-            # Adiciona o nome do arquivo de origem para exibir no terminal
             for cfg in data:
                 cfg["_source_file"] = Path(path).name
                 configs.append(cfg)
@@ -68,7 +67,6 @@ def main():
     if not exe.exists():
         sys.exit(f"[!] Executavel nao encontrado: {exe}")
 
-    # Expande o curinga (*.json) no Windows e Linux
     expanded_config_paths = []
     for pattern in args.configs:
         matches = glob.glob(pattern)
@@ -99,7 +97,6 @@ def main():
         print(f"\n>>> Processando: {vrp.name}")
         for cfg in configs:
             count += 1
-            # Exibe o nome do JSON e a tag!
             print(f"  [{count}/{total}] {cfg['_source_file']} -> tag: {cfg['tag']} (T0={cfg['t0']}, d={cfg['decay']})")
             if not run_one(exe, vrp, cfg):
                 fails += 1

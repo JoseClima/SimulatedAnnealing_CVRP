@@ -15,7 +15,6 @@ caminho_instancia = sys.argv[1]
 caminho_sol1 = sys.argv[2]
 caminho_sol2 = sys.argv[3]
 
-# Extrai os nomes para o título e para o arquivo PDF
 nome_sol1 = os.path.splitext(os.path.basename(caminho_sol1))[0]
 nome_sol2 = os.path.splitext(os.path.basename(caminho_sol2))[0]
 nome_base = os.path.splitext(os.path.basename(caminho_instancia))[0]
@@ -24,7 +23,6 @@ pasta_saida = os.path.join("results", "solucoes")
 os.makedirs(pasta_saida, exist_ok=True)
 caminho_pdf = os.path.join(pasta_saida, f"comp_{nome_sol1}_vs_{nome_sol2}.pdf")
 
-# Carrega instância
 instancia = ler_instancia(caminho_instancia, True)
 coords = {i: (x, y) for i, (x, y) in enumerate(instancia["COORDS"])}
 
@@ -32,8 +30,6 @@ cores = ['#3366cc', '#dc3912', '#ff9900', '#109618', '#990099',
          '#0099c6', '#dd4477', '#66aa00', '#b82e2e', '#316395']
 
 def desenhar_rotas(ax, caminho_arquivo, titulo):
-    """Função auxiliar para desenhar uma solução em um eixo específico"""
-    # Desenha o depósito e clientes
     ax.scatter(coords[0][0], coords[0][1], c='red', s=100, zorder=5)
     for i in range(1, instancia["DIMENSION"]):
         ax.scatter(coords[i][0], coords[i][1], c='black', s=20, zorder=4)
@@ -59,10 +55,8 @@ def desenhar_rotas(ax, caminho_arquivo, titulo):
     ax.set_title(titulo, fontsize=12, fontweight='bold')
     ax.axis("off")
 
-# Cria a figura com 1 linha e 2 colunas
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 7))
 
-# Desenha as duas soluções lado a lado
 desenhar_rotas(ax1, caminho_sol1, f"A) {nome_sol1}")
 desenhar_rotas(ax2, caminho_sol2, f"B) {nome_sol2}")
 

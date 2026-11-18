@@ -149,7 +149,7 @@ void Statistics::saveStatistics(string& outputFile) {
         return;
     }
 
-    out << std::fixed << std::setprecision(4);
+    out << std::fixed << std::setprecision(8);
 
     out << "====================================================\n";
     out << "   ESTATISTICAS DE EXECUCOES - SIMULATED ANNEALING\n";

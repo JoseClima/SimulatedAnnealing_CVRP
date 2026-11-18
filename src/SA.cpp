@@ -27,13 +27,13 @@ SA::SA(Context& ctx, int numVehicles, Route& existingRoute)
 namespace {
 
 bool buildNearestNeighbor(Context& ctx, int numVehicles, double fitFactor, Route& out) {
-    const int n = ctx.getDimension();
+    int n = ctx.getDimension();
     vector<bool> visited(n, false);
     visited[0] = true;
     int remaining = n - 1;
 
     for (int v = 0; v < numVehicles && remaining > 0; v++) {
-        const int capacity = ctx.getVehicle(v).getCapacity();
+        int capacity = ctx.getVehicle(v).getCapacity();
         int current = 0;
         int used = 0;
 
@@ -53,9 +53,9 @@ bool buildNearestNeighbor(Context& ctx, int numVehicles, double fitFactor, Route
                 int bestDemand = -1;
                 double bestDist = std::numeric_limits<double>::max();
                 for (int c = 1; c < n; c++) {
-                    const int d = ctx.getClient(c).getDemand();
+                    int d = ctx.getClient(c).getDemand();
                     if (visited[c] || used + d > capacity) continue;
-                    const double dist = ctx.getDistance(current, c);
+                    double dist = ctx.getDistance(current, c);
                     if (d > bestDemand || (d == bestDemand && dist < bestDist)) {
                         next = c;
                         bestDemand = d;
@@ -99,7 +99,7 @@ bool buildNearestNeighbor(Context& ctx, int numVehicles, double fitFactor, Route
 // em que a sobra de capacidade fica menor; depois ordena cada rota por NN.
 // Perde parte da coerencia geografica, por isso so e usado como ultimo recurso.
 bool buildBestFitDecreasing(Context& ctx, int numVehicles, Route& out) {
-    const int n = ctx.getDimension();
+    int n = ctx.getDimension();
 
     std::vector<int> order(n - 1);
     std::iota(order.begin(), order.end(), 1);
@@ -111,11 +111,11 @@ bool buildBestFitDecreasing(Context& ctx, int numVehicles, Route& out) {
     std::vector<int> load(numVehicles, 0);
 
     for (int c : order) {
-        const int d = ctx.getClient(c).getDemand();
+        int d = ctx.getClient(c).getDemand();
         int bestVehicle = -1;
         int bestSlack = std::numeric_limits<int>::max();
         for (int v = 0; v < numVehicles; v++) {
-            const int slack = ctx.getVehicle(v).getCapacity() - load[v] - d;
+            int slack = ctx.getVehicle(v).getCapacity() - load[v] - d;
             if (slack >= 0 && slack < bestSlack) {
                 bestSlack = slack;
                 bestVehicle = v;
@@ -135,7 +135,7 @@ bool buildBestFitDecreasing(Context& ctx, int numVehicles, Route& out) {
                 if (ctx.getDistance(current, bin[i]) < ctx.getDistance(current, bin[bestIdx]))
                     bestIdx = i;
             }
-            const int c = bin[bestIdx];
+            int c = bin[bestIdx];
             out.addClient(v, c, -1, ctx);
             bin.erase(bin.begin() + bestIdx);
             current = c;
@@ -148,7 +148,7 @@ bool buildBestFitDecreasing(Context& ctx, int numVehicles, Route& out) {
 
 
 Route SA::initialSolution(){
-    static const double fitFactors[] = {0.0, 2.0};
+    static double fitFactors[] = {0.0, 2.0};
     for (double f : fitFactors) {
         Route candidate(numVehicles);
         if (buildNearestNeighbor(ctx, numVehicles, f, candidate)) return candidate;
@@ -172,14 +172,16 @@ bool SA::applyRandomMove(Route& route, Context& ctx, int numVehicles, RNG& rng){
 
     uni_int_dist pickFirst(0, (int)active.size() - 1);
     uni_int_dist pickOther(0, (int)active.size() - 2);
-    const int i1 = pickFirst(rng);
+    int i1 = pickFirst(rng);
     int i2 = pickOther(rng);
-    if (i2 >= i1) i2++;
-    const int v1 = active[i1];
-    const int v2 = active[i2];
+    if (i2 >= i1) {
+        i2++;
+    }
+    int v1 = active[i1];
+    int v2 = active[i2];
 
     b_distr optChoice(0.5);
-    const bool OneOpt = optChoice(rng);
+    bool OneOpt = optChoice(rng);
 
     if(OneOpt){ // relocate: move cliente de v1 para v2 (moveClient confere a capacidade de v2)
         uni_int_dist pos1(0, (int)route.routeSize(v1) - 1);
